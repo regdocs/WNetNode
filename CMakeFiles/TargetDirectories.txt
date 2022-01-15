@@ -1,0 +1,2 @@
+/home/jayantapandit/libcode/acorn/CMakeFiles/rebuild_cache.dir
+/home/jayantapandit/libcode/acorn/CMakeFiles/edit_cache.dir
