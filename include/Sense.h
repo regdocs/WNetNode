@@ -140,13 +140,14 @@ std::vector<std::string> Sense::fragmentDataRow(std::string *dataRow)
 
 int Sense::parseSynsetOffset(std::vector<std::string> *fragments)
 {
-        /* parse string synset offset to numeric form */
+        /* parse string synset offset to integer */
         auto l_synsetOffset = (*fragments)[SYNSET_OFFSET_IDX];
         return parseStringToInteger(&l_synsetOffset);
 }
 
 std::string Sense::parseLexFilenum(std::vector<std::string> *fragments)
 {
+        /* parse and read lex_filenum and spit corresponding lexicographer file name */
         auto parsedLexFilenum = parseStringToInteger(&(*fragments)[LEX_FILENUM_IDX]);
         switch (parsedLexFilenum)
         {
