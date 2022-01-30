@@ -1,4 +1,7 @@
 #include <string>
+#include <cctype>
+#include <stdexcept>
+#include <cmath>
 
 // left-trim string
 auto leftTrim = [](std::string *s) {
@@ -23,3 +26,19 @@ auto trim = [](std::string *s) {
                 (*s).erase(i, 1);
         }
 };
+
+// parse string to integer
+auto parseStringToInteger = [](std::string *s) -> int {
+        int number = 0, stringLengthMinusOne = (*s).length() - 1;
+
+        for (int i = 0; i < (*s).length(); i++) {
+                if (!isdigit((*s)[i]))
+                        throw std::invalid_argument("Argument should contain only digit characters");
+        }
+
+        for (int i = 0; i < (*s).length(); i++) {
+                number += (*s)[i] * pow(10, stringLengthMinusOne - i);
+        }
+
+        return number;
+}
