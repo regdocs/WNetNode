@@ -41,4 +41,4 @@ auto parseStringToInteger = [](std::string *s) -> int {
         }
 
         return number;
-}
+};
