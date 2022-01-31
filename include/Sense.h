@@ -58,7 +58,7 @@ class Sense
                 std::vector<std::string> exampleSentences;
                 
         public:
-                /* constructor: */          Sense                 (std::string, bool);
+                /* constructor: */          Sense                 (std::string);
                 std::vector<std::string>    fragmentDataRow       (std::string*);
                 int                         parseSynsetOffset     (std::vector<std::string>*);
                 std::string                 parseLexFilenum       (std::vector<std::string>*);
@@ -73,12 +73,13 @@ class Sense
                 std::vector<std::string>    parseExampleSentences (std::vector<std::string>*);
 };
 
-Sense::Sense(std::string dataRow, bool isFileDataVerb)
+Sense::Sense(std::string dataRow)
         {
                 std::vector<std::string> fragments = fragmentDataRow(&dataRow);
-                
+
                 this -> synsetOffset = parseSynsetOffset(&fragments);
                 this -> lexFile = parseLexFilenum(&fragments);
+
                 this -> synsetType = parseSynsetType(&fragments);
                 this -> synCount = parseSynCount(&fragments);
                 this -> wordLexidGroupVector = parseWordLexidGroup(&fragments);
@@ -86,7 +87,7 @@ Sense::Sense(std::string dataRow, bool isFileDataVerb)
                 this -> pointerCount = parsePointerCount(&fragments);
                 this -> pointers = parsePointers(&fragments);
                 
-                if (isFileDataVerb) {
+                if (lexFile == "data.verb") {
                         this -> frameCount = parseFrameCount(&fragments);
                         this -> frames = parseFrames(&fragments);
                 }
