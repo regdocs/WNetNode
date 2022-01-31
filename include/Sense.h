@@ -1,3 +1,6 @@
+#ifndef SENSE_H_
+#define SENSE_H_
+
 #include <vector>
 #include <string>
 #include <locale>
@@ -321,3 +324,5 @@ std::vector<std::string> Sense::parseExampleSentences(std::vector<std::string> *
         }
         return l_exampleSentences;
 }
+
+#endif
