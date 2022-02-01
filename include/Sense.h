@@ -36,7 +36,7 @@ struct Frame {
 
 class Sense
 {
-        protected:
+        public:
                 // from [std::string] synset_offset
                 int synsetOffset;
                 // from [std::string] lex_filenum
@@ -60,8 +60,10 @@ class Sense
                 // from [std::string] gloss
                 std::vector<std::string> exampleSentences;
                 
-        public:
-                /* constructor: */          Sense                 (std::string);
+                // constructor
+                Sense(std::string);
+
+        private:
                 std::vector<std::string>    fragmentDataRow       (std::string*);
                 int                         parseSynsetOffset     (std::vector<std::string>*);
                 std::string                 parseLexFilenum       (std::vector<std::string>*);
@@ -236,7 +238,7 @@ std::vector<WordLexidGroup> Sense::parseWordLexidGroup(std::vector<std::string> 
         for (int i = 0; i < synCount; i++) {
                 WordLexidGroup set = {
                         (*fragments)[WORD_LEXID_SET_START_IDX + 2*i],
-                        parseStringToInteger(&(*fragments)[WORD_LEXID_SET_START_IDX + 2*i + 1])
+                        parseHexStringToDecInteger(&(*fragments)[WORD_LEXID_SET_START_IDX + 2*i + 1])
                 };
                 l_wordLexidGroupVector.push_back(set);
         }
