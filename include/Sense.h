@@ -37,12 +37,14 @@ struct Frame {
 class Sense
 {
         public:
+                // standard container for space separated data row components
+                std::vector<std::string> fragments;
                 // from [std::string] synset_offset
                 int synsetOffset;
                 // from [std::string] lex_filenum
-                std::string lexFile;
+                int lexFilenum;
                 // from [std::string] ss_type
-                std::string synsetType;
+                char synsetType;
                 // from [std::string] syn_count
                 int synCount;
                 // from [std::string] word and [std::string] lex_id
@@ -66,8 +68,8 @@ class Sense
         private:
                 std::vector<std::string> /*.....*/ fragmentDataRow /*........*/ (std::string*);
                 int /*..........................*/ parseSynsetOffset /*......*/ (std::vector<std::string>*);
-                std::string /*..................*/ parseLexFilenum /*........*/ (std::vector<std::string>*);
-                std::string /*..................*/ parseSynsetType /*........*/ (std::vector<std::string>*);
+                int /*..........................*/ parseLexFilenum /*........*/ (std::vector<std::string>*);
+                char /*.........................*/ parseSynsetType /*........*/ (std::vector<std::string>*);
                 int /*..........................*/ parseSynCount /*..........*/ (std::vector<std::string>*);
                 std::vector<WordLexidGroup> /*..*/ parseWordLexidGroup /*....*/ (std::vector<std::string>*);
                 int /*..........................*/ parsePointerCount /*......*/ (std::vector<std::string>*);
@@ -80,10 +82,10 @@ class Sense
 
 Sense::Sense(std::string dataRow)
         {
-                std::vector<std::string> fragments = fragmentDataRow(&dataRow);
+                this -> fragments = fragmentDataRow(&dataRow);
 
                 this -> synsetOffset = parseSynsetOffset(&fragments);
-                this -> lexFile = parseLexFilenum(&fragments);
+                this -> lexFilenum = parseLexFilenum(&fragments);
 
                 this -> synsetType = parseSynsetType(&fragments);
                 this -> synCount = parseSynCount(&fragments);
@@ -92,7 +94,7 @@ Sense::Sense(std::string dataRow)
                 this -> pointerCount = parsePointerCount(&fragments);
                 this -> pointers = parsePointers(&fragments);
                 
-                if (lexFile == "data.verb") {
+                if (synsetType == 'v') {
                         this -> frameCount = parseFrameCount(&fragments);
                         this -> frames = parseFrames(&fragments);
                 }
@@ -159,70 +161,16 @@ int Sense::parseSynsetOffset(std::vector<std::string> *fragments)
         return parseStringToInteger(&l_synsetOffset);
 }
 
-std::string Sense::parseLexFilenum(std::vector<std::string> *fragments)
+int Sense::parseLexFilenum(std::vector<std::string> *fragments)
 {
-        /* parse and read lex_filenum and spit corresponding lexicographer file name */
-        auto parsedLexFilenum = parseStringToInteger(&(*fragments)[LEX_FILENUM_IDX]);
-        switch (parsedLexFilenum) {
-                case 0:  return "adj.all";
-                case 1:  return "adj.pert";
-                case 2:  return "adv.all";
-                case 3:  return "noun.Tops";
-                case 4:  return "noun.act";
-                case 5:  return "noun.animal";
-                case 6:  return "noun.artifact";
-                case 7:  return "noun.attribute";
-                case 8:  return "noun.body";
-                case 9:  return "noun.cognition";
-                case 10: return "noun.communication";
-                case 11: return "noun.event";
-                case 12: return "noun.feeling";
-                case 13: return "noun.food";
-                case 14: return "noun.group";
-                case 15: return "noun.location";
-                case 16: return "noun.motive";
-                case 17: return "noun.object";
-                case 18: return "noun.person";
-                case 19: return "noun.phenomenon";
-                case 20: return "noun.plant";
-                case 21: return "noun.possession";
-                case 22: return "noun.process";
-                case 23: return "noun.quantity";
-                case 24: return "noun.relation";
-                case 25: return "noun.shape";
-                case 26: return "noun.state";
-                case 27: return "noun.substance";
-                case 28: return "noun.time";
-                case 29: return "verb.body";
-                case 30: return "verb.change";
-                case 31: return "verb.cognition";
-                case 32: return "verb.communication";
-                case 33: return "verb.competition";
-                case 34: return "verb.consumption";
-                case 35: return "verb.contact";
-                case 36: return "verb.creation";
-                case 37: return "verb.emotion";
-                case 38: return "verb.motion";
-                case 39: return "verb.perception";
-                case 40: return "verb.possession";
-                case 41: return "verb.social";
-                case 42: return "verb.stative";
-                case 43: return "verb.weather";
-                case 44: return "adj.ppl";
-        }
+        /* parse lex_filenum and return integer equivalent */
+        return parseStringToInteger(&(*fragments)[LEX_FILENUM_IDX]);
 }
 
-std::string Sense::parseSynsetType(std::vector<std::string> *fragments)
+char Sense::parseSynsetType(std::vector<std::string> *fragments)
 {
-        /* parse string synset_type and spit expanded form */
-        char l_synsetType = (*fragments)[SYNSET_TYPE_IDX][0];
-        switch (l_synsetType) {
-                case 'n': return "noun";
-                case 'v': return "verb";
-                case 'a': return "adjective";
-                case 'r': return "adverb";
-                case 's': return "adjective satellite";
-        }
+        /* parse string synset_type return char type equivalent */
+        return (*fragments)[SYNSET_TYPE_IDX][0];
 }
 
 int Sense::parseSynCount(std::vector<std::string> *fragments)
@@ -307,7 +255,7 @@ std::string Sense::parseDefinition(std::vector<std::string> *fragments)
 {
         /* detect and return synset definition */
         int preceedingFragmentsCount = 4 + 2*synCount + 1 + 4*pointerCount
-                                + (lexFile == "data.verb" ? (1 + 3*frameCount) : 0);
+                                + (synsetType == 'v' ? (1 + 3*frameCount) : 0);
         return (*fragments)[preceedingFragmentsCount];
 }
 
@@ -316,7 +264,7 @@ std::vector<std::string> Sense::parseExampleSentences(std::vector<std::string> *
         /* detect and return parsed example sentences */
         std::vector<std::string> l_exampleSentences;
         int preceedingFragmentsCount = 4 + 2*synCount + 1 + 4*pointerCount
-                                + (lexFile == "data.verb" ? (1 + 3*frameCount) : 0) + 1;
+                                + (synsetType == 'v' ? (1 + 3*frameCount) : 0) + 1;
         
         for (int i = preceedingFragmentsCount; i < (*fragments).size(); i++) {
                 l_exampleSentences.push_back(
