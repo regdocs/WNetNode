@@ -325,4 +325,4 @@ std::vector<std::string> Sense::parseExampleSentences(std::vector<std::string> *
         return l_exampleSentences;
 }
 
-#endif
+#endif /* SENSE_H_ */
