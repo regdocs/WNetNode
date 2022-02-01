@@ -36,7 +36,7 @@ struct Frame {
 
 class Sense
 {
-        private:
+        protected:
                 // from [std::string] synset_offset
                 int synsetOffset;
                 // from [std::string] lex_filenum
