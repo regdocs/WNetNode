@@ -1,3 +1,6 @@
+#ifndef ACORN_UTILS_H_
+#define ACORN_UTILS_H_
+
 #include <string>
 
 // parse lexicographer file index and return equivalent file name
@@ -61,3 +64,5 @@ auto parseSynsetTypeExpanded = [](char *synsetType) -> std::string {
                 case 's': return "adjective satellite";
         }
 };
+
+#endif /* ACORN_UTILS_H_ */
