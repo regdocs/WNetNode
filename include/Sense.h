@@ -64,18 +64,18 @@ class Sense
                 Sense(std::string);
 
         private:
-                std::vector<std::string>    fragmentDataRow       (std::string*);
-                int                         parseSynsetOffset     (std::vector<std::string>*);
-                std::string                 parseLexFilenum       (std::vector<std::string>*);
-                std::string                 parseSynsetType       (std::vector<std::string>*);
-                int                         parseSynCount         (std::vector<std::string>*);
-                std::vector<WordLexidGroup> parseWordLexidGroup   (std::vector<std::string>*);
-                int                         parsePointerCount     (std::vector<std::string>*);
-                std::vector<Pointer>        parsePointers         (std::vector<std::string>*);
-                int                         parseFrameCount       (std::vector<std::string>*);
-                std::vector<Frame>          parseFrames           (std::vector<std::string>*);
-                std::string                 parseDefinition       (std::vector<std::string>*);
-                std::vector<std::string>    parseExampleSentences (std::vector<std::string>*);
+                std::vector<std::string> /*.....*/ fragmentDataRow /*........*/ (std::string*);
+                int /*..........................*/ parseSynsetOffset /*......*/ (std::vector<std::string>*);
+                std::string /*..................*/ parseLexFilenum /*........*/ (std::vector<std::string>*);
+                std::string /*..................*/ parseSynsetType /*........*/ (std::vector<std::string>*);
+                int /*..........................*/ parseSynCount /*..........*/ (std::vector<std::string>*);
+                std::vector<WordLexidGroup> /*..*/ parseWordLexidGroup /*....*/ (std::vector<std::string>*);
+                int /*..........................*/ parsePointerCount /*......*/ (std::vector<std::string>*);
+                std::vector<Pointer> /*.........*/ parsePointers /*..........*/ (std::vector<std::string>*);
+                int /*..........................*/ parseFrameCount /*........*/ (std::vector<std::string>*);
+                std::vector<Frame> /*...........*/ parseFrames /*............*/ (std::vector<std::string>*);
+                std::string /*..................*/ parseDefinition /*........*/ (std::vector<std::string>*);
+                std::vector<std::string> /*.....*/ parseExampleSentences /*..*/ (std::vector<std::string>*);
 };
 
 Sense::Sense(std::string dataRow)
