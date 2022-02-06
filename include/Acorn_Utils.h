@@ -2,6 +2,7 @@
 #define ACORN_UTILS_H_
 
 #include <string>
+#include <map>
 
 // parse lexicographer file index and return equivalent file name
 auto parseLexFilename = [](int *lexFilenum) -> std::string {
@@ -29,6 +30,86 @@ auto parseSynsetTypeExpanded = [](char *synsetType) -> std::string {
                 case 'a': return "adjective";
                 case 'r': return "adverb";
                 case 's': return "adjective satellite";
+        }
+};
+
+// pointer pos and data.pos file name map
+std::map<char, std::string> posFile = {
+        {'n', "data.noun"},
+        {'v', "data.verb"},
+        {'a',  "data.adj"},
+        {'r',  "data.adv"},
+        {'s',  "data.adj"}
+};
+
+// noun pointer disambiguation map
+std::map<std::string, std::string> nounPointerDisambiguation = {
+        {"!",  "Antonym"},
+        {"@",  "Hypernym"},
+        {"@i", "Instance Hypernym"},
+        {"~",  "Hyponym"},
+        {"~i", "Instance Hyponym"},
+        {"#m", "Member holonym"},
+        {"#s", "Substance holonym"},
+        {"#p", "Part holonym"},
+        {"%m", "Member meronym"},
+        {"%s", "Substance meronym"},
+        {"%p", "Part meronym"},
+        {"=",  "Attribute"},
+        {"+",  "Derivationally related form"},
+        {";c", "Domain of synset - TOPIC"},
+        {"-c", "Member of this domain - TOPIC"},
+        {";r", "Domain of synset - REGION"},
+        {"-r", "Member of this domain - REGION"},
+        {";u", "Domain of synset - USAGE"},
+        {"-u", "Member of this domain - USAGE"}
+};
+
+// verb pointer disambiguation map
+std::map<std::string, std::string> verbPointerDisambiguation = {
+        {"!",  "Antonym"},
+        {"@",  "Hypernym"},
+        {"~",  "Hyponym"},
+        {"*",  "Entailment"},
+        {">",  "Cause"},
+        {"^",  "Also see"}, 
+        {"$",  "Verb Group"}, 
+        {"+",  "Derivationally related form"},
+        {";c", "Domain of synset - TOPIC"},
+        {";r", "Domain of synset - REGION"},
+        {";u", "Domain of synset - USAGE"}
+};
+
+// adjective pointer disambiguation map
+std::map<std::string, std::string> adjectivePointerDisambiguation = {
+        {"!",  "Antonym"},
+        {"&",  "Similar to"},
+        {"<",  "Participle of verb"},
+        {"\\", "Pertainym (pertains to noun)"},
+        {"=",  "Attribute"},
+        {"^",  "Also see"},
+        {";c", "Domain of synset - TOPIC"},
+        {";r", "Domain of synset - REGION"},
+        {";u", "Domain of synset - USAGE"}
+};
+
+// adverb pointer disambiguation map
+std::map<std::string, std::string> adverbPointerDisambiguation = {
+        {"!",  "Antonym"}, 
+        {"\\", "Derived from adjective"},
+        {";c", "Domain of synset - TOPIC"},
+        {";r", "Domain of synset - REGION"},
+        {";u", "Domain of synset - USAGE"},
+};
+
+// parse pointer_symbols and return disambiguated pointer type
+auto parsePointerSymbol = [](std::string pointerSymbol, std::string pos) -> std::string {
+        switch (pos[0]) {
+                case 'n': return nounPointerDisambiguation[pointerSymbol];
+                case 'v': return verbPointerDisambiguation[pointerSymbol];
+                case 'a': return adjectivePointerDisambiguation[pointerSymbol];
+                case 'r': return adverbPointerDisambiguation[pointerSymbol];
+                case 's': return adjectivePointerDisambiguation[pointerSymbol];
         }
 };
 
