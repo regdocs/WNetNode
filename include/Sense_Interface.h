@@ -1,7 +1,15 @@
 #ifndef SENSE_INTERFACE_H_
 #define SENSE_INTERFACE_H_
 
+// relative path to project root from this file
+#define PATH_TO_ROOT "../"
+
+#include <cstring>
+#include <fstream>
+
 #include "Sense.h"
+#include "WN3_Path.h"
+#include "Acorn_Utils.h"
 #include "String_Utils.h"
 #include "Synset_Pointers.h"
 
@@ -9,8 +17,6 @@ class Sense_Interface: public Sense
 /* as an established standard for this repository, all interface class members are to be appended with 'Interface' */
 {
         public:
-                // from [std::string] lemma 
-                std::string wordInterface;
                 // from [char] synsetType
                 std::string synsetTypeInterface;
                 // from [std::vector<WordLexidGroup>] wordLexidGroupVector
@@ -35,28 +41,518 @@ class Sense_Interface: public Sense
                  *  for documentation on verb frames and how to compile them.
                  */
 
-        private:
+                // constructor should call superclass constructor
                 Sense_Interface(std::string, std::string);
+
+        private:
+                // from [std::string] lemma 
+                std::string wordInterface;
+                // from [std::string] lemma
+                int wordIndexInterface;
+
+                std::string /*................*/ parseSynsetTypeInterface /*.........*/ (char*);
+                std::vector<std::string> /*...*/ parseSynWordVectorInterface /*......*/ (std::vector<WordLexidGroup>*);
+                jay_io::NounPointers /*.......*/ parseNounPointersInterface /*.......*/ (std::vector<Pointer>*);
+                jay_io::VerbPointers /*.......*/ parseVerbPointersInterface /*.......*/ (std::vector<Pointer>*);
+                jay_io::AdjectivePointers /*..*/ parseAdjectivePointersInterface /*..*/ (std::vector<Pointer>*);
+                jay_io::AdverbPointers /*.....*/ parseAdverbPointersInterface /*.....*/ (std::vector<Pointer>*);
+                std::vector<std::string> /*...*/ parseFrameInterface /*..............*/ (std::vector<Frame>*);
 };
 
 Sense_Interface::Sense_Interface(std::string word, std::string sense): Sense(sense)
-        {
-                this -> wordInterface = word;
-                this -> synsetTypeInterface = parseSynsetTypeInterface(&synsetType);
-                this -> synWordVectorInterface = parseSynWordVectorInterface(&wordLexidGroupVector);
-                
-                if (synsetType == 'n')
-                        nounPointersInterface = parseNounPointersInterface(&pointers);
-                else if (synsetType == 'v')
-                        verbPointersInterface = parseVerbPointersInterface(&pointers);
-                else if (synsetType == 'a' || synsetType == 's')
-                        adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
-                else if (synsetType == 'r')
-                        adverbPointersInterface = parseAdverbPointersInterface(&pointers);
-                
-                // returns null, do not use
-                this -> frameInterface = parseFrameInterface(&frames);
-        }
+{
+        /* class Sense_Interface constructor */
+        this -> wordInterface = word;
+        this -> synsetTypeInterface = parseSynsetTypeInterface(&synsetType);
+        this -> synWordVectorInterface = parseSynWordVectorInterface(&wordLexidGroupVector);
+        
+        if (synsetType == 'n')
+                nounPointersInterface = parseNounPointersInterface(&pointers);
+        else if (synsetType == 'v')
+                verbPointersInterface = parseVerbPointersInterface(&pointers);
+        else if (synsetType == 'a' || synsetType == 's')
+                adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
+        else if (synsetType == 'r')
+                adverbPointersInterface = parseAdverbPointersInterface(&pointers);
+        
+        // unused
+        this -> frameInterface = parseFrameInterface(&frames);
+}
 
+std::string Sense_Interface::parseSynsetTypeInterface(char *synsetType)
+{
+        /* returns disambiguated form of char parameter synsetType */
+        return parseSynsetTypeExpanded(synsetType);
+}
+
+std::vector<std::string> Sense_Interface::parseSynWordVectorInterface(std::vector<WordLexidGroup> *l_wordLexidGroupVector)
+{
+        /* returns manipulated form of synonym vector excluding queried word */
+        std::string t;
+        std::vector<std::string> l_synWordVectorInterface;
+
+        for (int i = 0; i < (*l_wordLexidGroupVector).size(); i++) {
+                t = (*l_wordLexidGroupVector)[i].word;
+
+                if (stringToLower(&t) == wordInterface) {
+                        wordIndexInterface = i + 1;
+                        continue;
+                }
+
+                replaceStringUscoreWithSpace(&t);
+                l_synWordVectorInterface.push_back(t);
+        }
+        return l_synWordVectorInterface;
+}
+
+jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Pointer> *pointers)
+{
+        /* parse noun pointers and create a decorated interface struct */
+        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::basic_ifstream<char> datapos;
+        jay_io::NounPointers p;
+
+        for (int i = 0; i < (*pointers).size(); i++) {
+                // do, if source index of the pointer refers to wordInterface (word looked up)
+                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                        
+                        // getlining the target sense
+                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        datapos.seekg((*pointers)[i].synsetOffset);
+                        std::getline(datapos, t, '\n');
+
+                        // parsing the getlined data row
+                        Sense sense(t);
+
+                        // push back on pointer's element with the word from the synset
+                        auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
+                                std::string w = *elementOfElement;
+                                replaceStringUscoreWithSpace(&w);
+                                (*element).push_back(w);
+                        };
+
+                        // placeholder variable for the returned string
+                        std::string disambiguatedPointerSymbol = parsePointerSymbol((*pointers)[i].pointerSymbol, (*pointers)[i].pos);
+                        
+                        // read through all synonyms in target pointer if target index is zero
+                        if ((*pointers)[i].target == 0) {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+
+                                        if (disambiguatedPointerSymbol == "Antonym")
+                                                pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Hypernym")
+                                                pushbackOnPointerElement_With_(&(p.hypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Instance Hypernym")
+                                                pushbackOnPointerElement_With_(&(p.instanceHypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Hyponym")
+                                                pushbackOnPointerElement_With_(&(p.hyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Instance Hyponym")
+                                                pushbackOnPointerElement_With_(&(p.instanceHyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Member holonym")
+                                                pushbackOnPointerElement_With_(&(p.memberHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Substance holonym")
+                                                pushbackOnPointerElement_With_(&(p.substanceHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Part holonym")
+                                                pushbackOnPointerElement_With_(&(p.partHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Member meronym")
+                                                pushbackOnPointerElement_With_(&(p.memberMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Substance meronym")
+                                                pushbackOnPointerElement_With_(&(p.substanceMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Part meronym")
+                                                pushbackOnPointerElement_With_(&(p.partMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Attribute")
+                                                pushbackOnPointerElement_With_(&(p.attribute), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Derivationally related form")
+                                                pushbackOnPointerElement_With_(&(p.derivationallyRelatedForm), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Member of this domain - TOPIC")
+                                                pushbackOnPointerElement_With_(&(p.memberOfThisDomainTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Member of this domain - REGION")
+                                                pushbackOnPointerElement_With_(&(p.memberOfThisDomainTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Member of this domain - USAGE")
+                                                pushbackOnPointerElement_With_(&(p.memberOfThisDomainUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                }
+                        }
+
+                        // read only the select synonym in target pointer if target index is non-zero
+                        else {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+                                        if (j + 1 == (*pointers)[i].target) {
+
+                                                if (disambiguatedPointerSymbol == "Antonym")
+                                                        pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Hypernym")
+                                                        pushbackOnPointerElement_With_(&(p.hypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Instance Hypernym")
+                                                        pushbackOnPointerElement_With_(&(p.instanceHypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Hyponym")
+                                                        pushbackOnPointerElement_With_(&(p.hyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Instance Hyponym")
+                                                        pushbackOnPointerElement_With_(&(p.instanceHyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Member holonym")
+                                                        pushbackOnPointerElement_With_(&(p.memberHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Substance holonym")
+                                                        pushbackOnPointerElement_With_(&(p.substanceHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Part holonym")
+                                                        pushbackOnPointerElement_With_(&(p.partHolonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Member meronym")
+                                                        pushbackOnPointerElement_With_(&(p.memberMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Substance meronym")
+                                                        pushbackOnPointerElement_With_(&(p.substanceMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Part meronym")
+                                                        pushbackOnPointerElement_With_(&(p.partMeronym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Attribute")
+                                                        pushbackOnPointerElement_With_(&(p.attribute), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Derivationally related form")
+                                                        pushbackOnPointerElement_With_(&(p.derivationallyRelatedForm), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Member of this domain - TOPIC")
+                                                        pushbackOnPointerElement_With_(&(p.memberOfThisDomainTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Member of this domain - REGION")
+                                                        pushbackOnPointerElement_With_(&(p.memberOfThisDomainTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Member of this domain - USAGE")
+                                                        pushbackOnPointerElement_With_(&(p.memberOfThisDomainUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                        }
+                                }
+                        }
+                }        
+        }
+}
+
+jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Pointer> *pointers)
+{
+        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::basic_ifstream<char> datapos;
+        jay_io::VerbPointers p;
+
+        for (int i = 0; i < (*pointers).size(); i++) {
+                // do, if source index of the pointer refers to wordInterface (word looked up)
+                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                        
+                        // getlining the target sense
+                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        datapos.seekg((*pointers)[i].synsetOffset);
+                        std::getline(datapos, t, '\n');
+
+                        // parsing the getlined data row
+                        Sense sense(t);
+
+                        // push back on pointer's element with the word from the synset
+                        auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
+                                std::string w = *elementOfElement;
+                                replaceStringUscoreWithSpace(&w);
+                                (*element).push_back(w);
+                        };
+
+                        // placeholder variable for the returned string
+                        std::string disambiguatedPointerSymbol = parsePointerSymbol((*pointers)[i].pointerSymbol, (*pointers)[i].pos);
+                        
+                        // read through all synonyms in target pointer if target index is zero
+                        if ((*pointers)[i].target == 0) {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+
+                                        if (disambiguatedPointerSymbol == "Antonym")
+                                                pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Hypernym")
+                                                pushbackOnPointerElement_With_(&(p.hypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Hyponym")
+                                                pushbackOnPointerElement_With_(&(p.hyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Entailment")
+                                                pushbackOnPointerElement_With_(&(p.entailment), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Cause")
+                                                pushbackOnPointerElement_With_(&(p.cause), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Also see")
+                                                pushbackOnPointerElement_With_(&(p.alsoSee), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Verb Group")
+                                                pushbackOnPointerElement_With_(&(p.verbGroup), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Derivationally related form")
+                                                pushbackOnPointerElement_With_(&(p.derivationallyRelatedForm), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                        }
+                        }
+
+                        // read only the select synonym in target pointer if target index is non-zero
+                        else {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+                                        if (j + 1 == (*pointers)[i].target) {
+
+                                                if (disambiguatedPointerSymbol == "Antonym")
+                                                        pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Hypernym")
+                                                        pushbackOnPointerElement_With_(&(p.hypernym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Hyponym")
+                                                        pushbackOnPointerElement_With_(&(p.hyponym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Entailment")
+                                                        pushbackOnPointerElement_With_(&(p.entailment), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Cause")
+                                                        pushbackOnPointerElement_With_(&(p.cause), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Also see")
+                                                        pushbackOnPointerElement_With_(&(p.alsoSee), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Verb Group")
+                                                        pushbackOnPointerElement_With_(&(p.verbGroup), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Derivationally related form")
+                                                        pushbackOnPointerElement_With_(&(p.derivationallyRelatedForm), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                        }
+                                }
+                        }
+                }        
+        }
+}
+
+jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::vector<Pointer> *pointers)
+{
+        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::basic_ifstream<char> datapos;
+        jay_io::AdjectivePointers p;
+
+        for (int i = 0; i < (*pointers).size(); i++) {
+                // do, if source index of the pointer refers to wordInterface (word looked up)
+                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                        
+                        // getlining the target sense
+                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        datapos.seekg((*pointers)[i].synsetOffset);
+                        std::getline(datapos, t, '\n');
+
+                        // parsing the getlined data row
+                        Sense sense(t);
+
+                        // push back on pointer's element with the word from the synset
+                        auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
+                                std::string w = *elementOfElement;
+                                replaceStringUscoreWithSpace(&w);
+                                (*element).push_back(w);
+                        };
+
+                        // placeholder variable for the returned string
+                        std::string disambiguatedPointerSymbol = parsePointerSymbol((*pointers)[i].pointerSymbol, (*pointers)[i].pos);
+                        
+                        // read through all synonyms in target pointer if target index is zero
+                        if ((*pointers)[i].target == 0) {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+
+                                        if (disambiguatedPointerSymbol == "Antonym")
+                                                pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Similar to")
+                                                pushbackOnPointerElement_With_(&(p.similarTo), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Participle of verb")
+                                                pushbackOnPointerElement_With_(&(p.participleOfVerb), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Pertainym (pertains to noun)")
+                                                pushbackOnPointerElement_With_(&(p.pertainym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Attribute")
+                                                pushbackOnPointerElement_With_(&(p.attribute), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Also see")
+                                                pushbackOnPointerElement_With_(&(p.alsoSee), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                }
+                        }
+
+                        // read only the select synonym in target pointer if target index is non-zero
+                        else {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+                                        if (j + 1 == (*pointers)[i].target) {
+
+                                                if (disambiguatedPointerSymbol == "Antonym")
+                                                        pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Similar to")
+                                                        pushbackOnPointerElement_With_(&(p.similarTo), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Participle of verb")
+                                                        pushbackOnPointerElement_With_(&(p.participleOfVerb), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Pertainym (pertains to noun)")
+                                                        pushbackOnPointerElement_With_(&(p.pertainym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Attribute")
+                                                        pushbackOnPointerElement_With_(&(p.attribute), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Also see")
+                                                        pushbackOnPointerElement_With_(&(p.alsoSee), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                        }
+                                }
+                        }
+                }        
+        }
+}
+
+jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector<Pointer> *pointers)
+{
+        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::basic_ifstream<char> datapos;
+        jay_io::AdverbPointers p;
+
+        for (int i = 0; i < (*pointers).size(); i++) {
+                // do, if source index of the pointer refers to wordInterface (word looked up)
+                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                        
+                        // getlining the target sense
+                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        datapos.seekg((*pointers)[i].synsetOffset);
+                        std::getline(datapos, t, '\n');
+
+                        // parsing the getlined data row
+                        Sense sense(t);
+
+                        // push back on pointer's element with the word from the synset
+                        auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
+                                std::string w = *elementOfElement;
+                                replaceStringUscoreWithSpace(&w);
+                                (*element).push_back(w);
+                        };
+
+                        // placeholder variable for the returned string
+                        std::string disambiguatedPointerSymbol = parsePointerSymbol((*pointers)[i].pointerSymbol, (*pointers)[i].pos);
+                        
+                        // read through all synonyms in target pointer if target index is zero
+                        if ((*pointers)[i].target == 0) {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+
+                                        if (disambiguatedPointerSymbol == "Antonym")
+                                                pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Derived from adjective")
+                                                pushbackOnPointerElement_With_(&(p.derivedFromAdjective), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                        else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                }
+                        }
+
+                        // read only the select synonym in target pointer if target index is non-zero
+                        else {
+                                for (int j = 0; j < sense.wordLexidGroupVector.size(); j++) {
+                                        if (j + 1 == (*pointers)[i].target) {
+
+                                                if (disambiguatedPointerSymbol == "Antonym")
+                                                        pushbackOnPointerElement_With_(&(p.antonym), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Derived from adjective")
+                                                        pushbackOnPointerElement_With_(&(p.derivedFromAdjective), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - TOPIC")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetTOPIC), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - REGION")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetREGION), &(sense.wordLexidGroupVector[j].word));
+
+                                                else if (disambiguatedPointerSymbol == "Domain of synset - USAGE")
+                                                        pushbackOnPointerElement_With_(&(p.domainOfSynsetUSAGE), &(sense.wordLexidGroupVector[j].word));
+                                        }
+                                }
+                        }
+                }        
+        }
+}
+
+std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame>* l_frames)
+{
+        return {""};
+}
 
 #endif /* SENSE_INTERFACE_H_ */
