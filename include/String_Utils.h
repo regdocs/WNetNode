@@ -77,3 +77,27 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 
         return c;
 };
+
+// return string parameter replacing underscores with spaces
+auto replaceStringUscoreWithSpace = [](std::string *s) -> std::string {
+        for (int i = 0; i <= (*s).length(); i++) {
+                if ((*s)[i] != '_')
+                        (*s).replace(i, 1, " ");
+        }
+};
+
+// return string of length 1 with parameter at index 0
+auto parseCharToString = [](char c) -> std::string {
+        std::string t = "";
+        t.push_back(c);
+        return t;
+};
+
+// return string parameter replacing alphabets with their lowercase
+auto stringToLower = [](std::string *s) -> std::string {
+        std::string t = *s;
+        for (int i = 0; i <= t.length(); i++) {
+                t.replace(i, 1, parseCharToString(tolower(t[i])));
+        }
+        return t;
+};
