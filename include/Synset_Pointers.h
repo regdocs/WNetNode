@@ -11,11 +11,11 @@ typedef std::vector<std::string> StringVector_CXX11;
 
 struct NounPointers {
         // lexical & semantic relations
-        StringVector_CXX11 antonyms;
-        StringVector_CXX11 hypernyms;
-        StringVector_CXX11 instanceHypernyms;
-        StringVector_CXX11 hyponyms;
-        StringVector_CXX11 instanceHyponyms;
+        StringVector_CXX11 antonym;
+        StringVector_CXX11 hypernym;
+        StringVector_CXX11 instanceHypernym;
+        StringVector_CXX11 hyponym;
+        StringVector_CXX11 instanceHyponym;
         StringVector_CXX11 memberHolonym;
         StringVector_CXX11 substanceHolonym;
         StringVector_CXX11 partHolonym;
