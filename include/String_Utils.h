@@ -55,7 +55,7 @@ auto parseStringToInteger = [](std::string *s) -> int {
 
 // parse hex string to decimal integer
 auto parseHexStringToDecInteger = [](std::string *s) -> int {
-        
+
         std::map<char, int> decEqv = {
                 {'0',  0}, {'4',  4}, {'8',  8}, {'c', 12},
                 {'1',  1}, {'5',  5}, {'9',  9}, {'d', 13},
@@ -67,13 +67,13 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 
         for (int i = 0; i < (*s).length(); i++) {
                 if (
-                        !isdigit(decEqv[(*s)[i]]) || 
-                        (*s)[i] != 'a' || (*s)[i] != 'A' ||
-                        (*s)[i] != 'b' || (*s)[i] != 'B' ||
-                        (*s)[i] != 'c' || (*s)[i] != 'C' ||
-                        (*s)[i] != 'd' || (*s)[i] != 'D' ||
-                        (*s)[i] != 'e' || (*s)[i] != 'E' ||
-                        (*s)[i] != 'f' || (*s)[i] != 'F'
+                        !isdigit((*s)[i]) && 
+                        (*s)[i] != 'a' && (*s)[i] != 'A' &&
+                        (*s)[i] != 'b' && (*s)[i] != 'B' &&
+                        (*s)[i] != 'c' && (*s)[i] != 'C' &&
+                        (*s)[i] != 'd' && (*s)[i] != 'D' &&
+                        (*s)[i] != 'e' && (*s)[i] != 'E' &&
+                        (*s)[i] != 'f' && (*s)[i] != 'F'
                 )
                         throw std::invalid_argument("Argument should contain only hexadecimal digit characters");
         }
