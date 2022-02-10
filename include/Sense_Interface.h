@@ -6,6 +6,7 @@
 
 #include <cstring>
 #include <fstream>
+#include <iostream>
 
 #include "Sense.h"
 #include "WN3_Path.h"
@@ -43,6 +44,7 @@ class Sense_Interface: public Sense
 
                 // constructor should call superclass constructor
                 Sense_Interface(std::string, std::string);
+                void previewInterface();
 
         private:
                 // from [std::string] lemma 
@@ -553,6 +555,92 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
 std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame>* l_frames)
 {
         return {""};
+}
+
+void Sense_Interface::previewInterface()
+{
+        std::string out, t, tab = "\t", colonSpace = ": ", newline = "\n";
+
+        auto prettyPrintVectorOfStrings = [&] (std::vector<std::string> *vos) -> std::string {
+                out.clear();
+                for (int i = 0; i < (*vos).size(); i++)
+                {
+                        if ((*vos).size() - 1 != i) {
+                                t = (*vos)[i];
+                                t.append(", ");
+                                out.append(t);
+                        } else
+                                out.append((*vos)[i]);
+                }
+                return out;
+        };
+
+        auto printNounPointers = [&] () -> std::string {
+                out.clear();
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.antonym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hypernym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHypernym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hyponym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHyponym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberHolonym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceHolonym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partHolonym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberMeronym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceMeronym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partMeronym) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.attribute) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.derivationallyRelatedForm) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetTOPIC) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainTOPIC) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetREGION) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainREGION) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetUSAGE) + newline);
+                out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainUSAGE) + newline);
+        };
+
+        auto printVerbPointers = [&] () -> std::string {
+                out.clear();
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.antonym) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hypernym) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hyponym) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.entailment) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.cause) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.alsoSee) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.verbGroup) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.derivationallyRelatedForm) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetTOPIC) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetREGION) + newline);
+                out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetUSAGE) + newline);
+        };
+
+        auto printAdjectivePointers = [&] () -> std::string {
+                out.clear();
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.antonym) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.similarTo) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.participleOfVerb) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.pertainym) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.attribute) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.alsoSee) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetTOPIC) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetREGION) + newline);
+                out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetUSAGE) + newline);
+        };
+
+        auto printAdverbPointers = [&] () -> std::string {
+                out.clear();
+                out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.antonym) + newline);
+                out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.derivedFromAdjective) + newline);
+                out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetTOPIC) + newline);
+                out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
+                out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
+        };
+
+        std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
+        std::cout << "Synonym set:        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
+        std::cout << "Noun pointers:      " << printNounPointers() << std::endl;
+        std::cout << "Verb pointers:      " << printVerbPointers() << std::endl;
+        std::cout << "Adjective pointers: " << printAdjectivePointers() << std::endl;
+        std::cout << "Adverb pointers:    " << printAdverbPointers() << std::endl;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
