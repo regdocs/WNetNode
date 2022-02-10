@@ -4,6 +4,8 @@
 #include <string>
 #include <map>
 
+#include "Synset_Pointers.h"
+
 // parse lexicographer file index and return equivalent file name
 auto parseLexFilename = [](int *lexFilenum) -> std::string {
         switch (*lexFilenum) {
@@ -65,6 +67,29 @@ std::map<std::string, std::string> nounPointerDisambiguation = {
         {"-u", "Member of this domain - USAGE"}
 };
 
+// noun pointer element index map
+std::map<int, std::string> nounPointerElemDisambiguationIndex = {
+        { 0,  "Antonym"},
+        { 1,  "Hypernym"},
+        { 2, "Instance Hypernym"},
+        { 3,  "Hyponym"},
+        { 4, "Instance Hyponym"},
+        { 5, "Member holonym"},
+        { 6, "Substance holonym"},
+        { 7, "Part holonym"},
+        { 8, "Member meronym"},
+        { 9, "Substance meronym"},
+        {10, "Part meronym"},
+        {11, "Attribute"},
+        {12, "Derivationally related form"},
+        {13, "Domain of synset - TOPIC"},
+        {14, "Member of this domain - TOPIC"},
+        {15, "Domain of synset - REGION"},
+        {16, "Member of this domain - REGION"},
+        {17, "Domain of synset - USAGE"},
+        {18, "Member of this domain - USAGE"}
+};
+
 // verb pointer disambiguation map
 std::map<std::string, std::string> verbPointerDisambiguation = {
         {"!",  "Antonym"},
@@ -80,6 +105,21 @@ std::map<std::string, std::string> verbPointerDisambiguation = {
         {";u", "Domain of synset - USAGE"}
 };
 
+// verb pointer element index map
+std::map<int, std::string> verbPointerElemDisambiguationIndex = {
+        { 0, "Antonym"},
+        { 1, "Hypernym"},
+        { 2, "Hyponym"},
+        { 3, "Entailment"},
+        { 4, "Cause"},
+        { 5, "Also see"}, 
+        { 6, "Verb Group"}, 
+        { 7, "Derivationally related form"},
+        { 8, "Domain of synset - TOPIC"},
+        { 9, "Domain of synset - REGION"},
+        {10, "Domain of synset - USAGE"}
+};
+
 // adjective pointer disambiguation map
 std::map<std::string, std::string> adjectivePointerDisambiguation = {
         {"!",  "Antonym"},
@@ -93,6 +133,19 @@ std::map<std::string, std::string> adjectivePointerDisambiguation = {
         {";u", "Domain of synset - USAGE"}
 };
 
+// adjective pointer element index map
+std::map<int, std::string> adjectivePointerElemDisambiguationIndex = {
+        {0, "Antonym"},
+        {1, "Similar to"},
+        {2, "Participle of verb"},
+        {3, "Pertainym (pertains to noun)"},
+        {4, "Attribute"},
+        {5, "Also see"},
+        {6, "Domain of synset - TOPIC"},
+        {7, "Domain of synset - REGION"},
+        {8, "Domain of synset - USAGE"}
+};
+
 // adverb pointer disambiguation map
 std::map<std::string, std::string> adverbPointerDisambiguation = {
         {"!",  "Antonym"}, 
@@ -100,6 +153,15 @@ std::map<std::string, std::string> adverbPointerDisambiguation = {
         {";c", "Domain of synset - TOPIC"},
         {";r", "Domain of synset - REGION"},
         {";u", "Domain of synset - USAGE"},
+};
+
+// adverb pointer element index map
+std::map<int, std::string> adverbPointerElemDisambiguationIndex = {
+        {0, "Antonym"}, 
+        {1, "Derived from adjective"},
+        {2, "Domain of synset - TOPIC"},
+        {3, "Domain of synset - REGION"},
+        {4, "Domain of synset - USAGE"},
 };
 
 // parse pointer_symbols and return disambiguated pointer type
