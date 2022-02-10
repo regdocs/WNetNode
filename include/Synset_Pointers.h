@@ -1,6 +1,11 @@
 #ifndef SYNSET_POINTERS_H_
 #define SYNSET_POINTERS_H_
 
+#define NOUN_POINTER_SIZE 19
+#define VERB_POINTER_SIZE 11
+#define ADJ_POINTER_SIZE 9
+#define ADV_POINTER_SIZE 5
+
 #include <vector>
 #include <string>
 
