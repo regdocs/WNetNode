@@ -25,7 +25,7 @@ auto parseLexFilename = [](int *lexFilenum) -> std::string {
 };
 
 // parse synset type character and return complete string equivalent
-auto parseSynsetTypeExpanded = [](char *synsetType) -> std::string {
+auto parseSynsetTypeExpanded = [](char *synsetType) {
         switch (*synsetType) {
                 case 'n': return "noun";
                 case 'v': return "verb";
@@ -165,7 +165,7 @@ std::map<int, std::string> adverbPointerElemDisambiguationIndex = {
 };
 
 // parse pointer_symbols and return disambiguated pointer type
-auto parsePointerSymbol = [](std::string pointerSymbol, std::string pos) -> std::string {
+auto parsePointerSymbol = [](std::string pointerSymbol, std::string pos) {
         switch (pos[0]) {
                 case 'n': return nounPointerDisambiguation[pointerSymbol];
                 case 'v': return verbPointerDisambiguation[pointerSymbol];
