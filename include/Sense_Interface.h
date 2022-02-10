@@ -76,7 +76,7 @@ Sense_Interface::Sense_Interface(std::string word, std::string sense): Sense(sen
                 adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
         else if (synsetType == 'r')
                 adverbPointersInterface = parseAdverbPointersInterface(&pointers);
-        
+
         // unused
         this -> frameInterface = parseFrameInterface(&frames);
 }
@@ -265,6 +265,8 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
                         }
                 }        
         }
+        
+        return p;
 }
 
 jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Pointer> *pointers)
@@ -376,6 +378,8 @@ jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Poi
                         }
                 }        
         }
+
+        return p;
 }
 
 jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::vector<Pointer> *pointers)
@@ -475,6 +479,8 @@ jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::
                         }
                 }        
         }
+
+        return p;
 }
 
 jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector<Pointer> *pointers)
@@ -550,6 +556,8 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
                         }
                 }        
         }
+
+        return p;
 }
 
 std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame>* l_frames)
@@ -596,6 +604,7 @@ void Sense_Interface::previewInterface()
                 out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainREGION) + newline);
                 out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetUSAGE) + newline);
                 out.append(tab + nounPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainUSAGE) + newline);
+                return out;
         };
 
         auto printVerbPointers = [&] () -> std::string {
@@ -611,6 +620,7 @@ void Sense_Interface::previewInterface()
                 out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetTOPIC) + newline);
                 out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetREGION) + newline);
                 out.append(tab + verbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetUSAGE) + newline);
+                return out;
         };
 
         auto printAdjectivePointers = [&] () -> std::string {
@@ -624,6 +634,7 @@ void Sense_Interface::previewInterface()
                 out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetTOPIC) + newline);
                 out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetREGION) + newline);
                 out.append(tab + adjectivePointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetUSAGE) + newline);
+                return out;
         };
 
         auto printAdverbPointers = [&] () -> std::string {
@@ -633,6 +644,7 @@ void Sense_Interface::previewInterface()
                 out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetTOPIC) + newline);
                 out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
                 out.append(tab + adverbPointerElemDisambiguationIndex[0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
+                return out;
         };
 
         std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
