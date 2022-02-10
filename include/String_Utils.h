@@ -34,13 +34,20 @@ auto trim = [](std::string *s) {
 auto parseStringToInteger = [](std::string *s) -> int {
         int number = 0, stringLengthMinusOne = (*s).length() - 1;
 
+        std::map<char, int> decEqv = {
+                {'0',  0}, {'4',  4}, {'8',  8},
+                {'1',  1}, {'5',  5}, {'9',  9},
+                {'2',  2}, {'6',  6},
+                {'3',  3}, {'7',  7},
+        };
+
         for (int i = 0; i < (*s).length(); i++) {
                 if (!isdigit((*s)[i]))
                         throw std::invalid_argument("Argument should contain only digit characters");
         }
 
         for (int i = 0; i < (*s).length(); i++) {
-                number += (*s)[i] * pow(10, stringLengthMinusOne - i);
+                number += decEqv[(*s)[i]] * pow(10, stringLengthMinusOne - i);
         }
 
         return number;
@@ -48,6 +55,7 @@ auto parseStringToInteger = [](std::string *s) -> int {
 
 // parse hex string to decimal integer
 auto parseHexStringToDecInteger = [](std::string *s) -> int {
+        
         std::map<char, int> decEqv = {
                 {'0',  0}, {'4',  4}, {'8',  8}, {'c', 12},
                 {'1',  1}, {'5',  5}, {'9',  9}, {'d', 13},
@@ -59,7 +67,7 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 
         for (int i = 0; i < (*s).length(); i++) {
                 if (
-                        !isdigit((*s)[i]) || 
+                        !isdigit(decEqv[(*s)[i]]) || 
                         (*s)[i] != 'a' || (*s)[i] != 'A' ||
                         (*s)[i] != 'b' || (*s)[i] != 'B' ||
                         (*s)[i] != 'c' || (*s)[i] != 'C' ||
@@ -79,7 +87,7 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 };
 
 // return string parameter replacing underscores with spaces
-auto replaceStringUscoreWithSpace = [](std::string *s) -> std::string {
+auto replaceStringUscoreWithSpace = [](std::string *s) {
         for (int i = 0; i < (*s).length(); i++) {
                 if ((*s)[i] != '_')
                         (*s).replace(i, 1, " ");
