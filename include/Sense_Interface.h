@@ -44,7 +44,7 @@ class Sense_Interface: public Sense
 
                 // constructor should call superclass constructor
                 Sense_Interface(std::string, std::string);
-                void previewInterface();
+                void previewSenseInterface();
 
         private:
                 // from [std::string] lemma 
@@ -577,7 +577,7 @@ std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame>
         return {""};
 }
 
-void Sense_Interface::previewInterface()
+void Sense_Interface::previewSenseInterface()
 {
         std::string out, t, tab = "\t", colonSpace = ": ", newline = "\n";
 
