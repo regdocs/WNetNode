@@ -64,6 +64,8 @@ class Sense
                 
                 // constructor
                 Sense(std::string);
+                // member preview
+                void previewSense (void);
 
         private:
                 std::vector<std::string> /*.....*/ fragmentDataRow /*........*/ (std::string*);
@@ -273,6 +275,29 @@ std::vector<std::string> Sense::parseExampleSentences(std::vector<std::string> *
                 );
         }
         return l_exampleSentences;
+}
+
+void Sense::previewSense()
+{
+        using namespace std;
+        for (auto i: fragments)
+                cout << i << " ";
+                cout << "\n";
+        cout << synsetOffset << "\n";
+        cout << lexFilenum << "\n";
+        cout << synsetType << "\n";
+        cout << synCount << "\n";
+        for (auto i: wordLexidGroupVector)
+                cout << i.lexid << " " << i.word << "\n";
+        cout << pointerCount << "\n";
+        for (auto i: pointers)
+                cout << i.pointerSymbol << " " << i.pos << " " << i.source << " " << i.synsetOffset << " " << i.target << "\n";
+        cout << frameCount << "\n";
+        for (auto i: frames)
+                cout << i.frameNumber << " " << i.wordNumber << "\n";
+        cout << def << "\n";
+        for (auto i: exampleSentences)
+                cout << i << "\n";
 }
 
 #endif /* SENSE_H_ */
