@@ -110,7 +110,9 @@ std::vector<std::string> Sense_Interface::parseSynWordVectorInterface(std::vecto
 jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Pointer> *pointers)
 {
         /* parse noun pointers and create a decorated interface struct */
-        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::string filepath, t;
+        filepath.append(PATH_TO_ROOT);
+        filepath.append(WN3DB_DAT_POS_PATH);
         std::basic_ifstream<char> datapos;
         jay_io::NounPointers p;
 
@@ -271,7 +273,9 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
 
 jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Pointer> *pointers)
 {
-        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::string filepath, t;
+        filepath.append(PATH_TO_ROOT);
+        filepath.append(WN3DB_DAT_POS_PATH);
         std::basic_ifstream<char> datapos;
         jay_io::VerbPointers p;
 
@@ -384,7 +388,9 @@ jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Poi
 
 jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::vector<Pointer> *pointers)
 {
-        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::string filepath, t;
+        filepath.append(PATH_TO_ROOT);
+        filepath.append(WN3DB_DAT_POS_PATH);
         std::basic_ifstream<char> datapos;
         jay_io::AdjectivePointers p;
 
@@ -485,7 +491,9 @@ jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::
 
 jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector<Pointer> *pointers)
 {
-        std::string filepath = strcat(PATH_TO_ROOT, WN3DB_DAT_POS_PATH), t;
+        std::string filepath, t;
+        filepath.append(PATH_TO_ROOT);
+        filepath.append(WN3DB_DAT_POS_PATH);
         std::basic_ifstream<char> datapos;
         jay_io::AdverbPointers p;
 
