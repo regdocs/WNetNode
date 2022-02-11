@@ -288,10 +288,10 @@ void Sense::previewSense()
         cout << synsetType << "\n";
         cout << synCount << "\n";
         for (auto i: wordLexidGroupVector)
-                cout << i.lexid << " " << i.word << "\n";
+                cout << i.word << " " << i.lexid << "\n";
         cout << pointerCount << "\n";
         for (auto i: pointers)
-                cout << i.pointerSymbol << " " << i.pos << " " << i.source << " " << i.synsetOffset << " " << i.target << "\n";
+                cout << i.pointerSymbol << " " << i.synsetOffset << " " << i.pos << " " << i.source << " " << i.target << "\n";
         cout << frameCount << "\n";
         for (auto i: frames)
                 cout << i.frameNumber << " " << i.wordNumber << "\n";
