@@ -80,7 +80,7 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 
         int c = 0;
         for (int i = (*s).length() - 1; i >= 0; i--) {
-                c += decEqv[(*s)[i]] * pow(16, i);
+                c += decEqv[(*s)[i]] * pow(16, (*s).length() - 1 - i);
         }
 
         return c;
