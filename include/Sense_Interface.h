@@ -121,7 +121,8 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
                 if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
                         
                         // getlining the target sense
-                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        filepath.append(posFile[(*pointers)[i].pos[0]]);
+                        datapos.open(filepath.c_str());
                         datapos.seekg((*pointers)[i].synsetOffset);
                         std::getline(datapos, t, '\n');
 
@@ -284,7 +285,8 @@ jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Poi
                 if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
                         
                         // getlining the target sense
-                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        filepath.append(posFile[(*pointers)[i].pos[0]]);
+                        datapos.open(filepath.c_str());
                         datapos.seekg((*pointers)[i].synsetOffset);
                         std::getline(datapos, t, '\n');
 
@@ -399,7 +401,8 @@ jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::
                 if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
                         
                         // getlining the target sense
-                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        filepath.append(posFile[(*pointers)[i].pos[0]]);
+                        datapos.open(filepath.c_str());
                         datapos.seekg((*pointers)[i].synsetOffset);
                         std::getline(datapos, t, '\n');
 
@@ -502,7 +505,8 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
                 if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
                         
                         // getlining the target sense
-                        datapos.open(filepath.append(posFile[(*pointers)[i].pos[0]]).c_str());
+                        filepath.append(posFile[(*pointers)[i].pos[0]]);
+                        datapos.open(filepath.c_str());
                         datapos.seekg((*pointers)[i].synsetOffset);
                         std::getline(datapos, t, '\n');
 
