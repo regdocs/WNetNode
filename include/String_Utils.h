@@ -89,7 +89,7 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 // return string parameter replacing underscores with spaces
 auto replaceStringUscoreWithSpace = [](std::string *s) {
         for (int i = 0; i < (*s).length(); i++) {
-                if ((*s)[i] != '_')
+                if ((*s)[i] == '_')
                         (*s).replace(i, 1, " ");
         }
 };
