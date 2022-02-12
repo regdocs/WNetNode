@@ -102,7 +102,6 @@ std::vector<std::string> Sense_Interface::parseSynWordVectorInterface(std::vecto
                 }
 
                 replaceStringUscoreWithSpace(&t);
-                std::cout << t;
                 l_synWordVectorInterface.push_back(t);
         }
         return l_synWordVectorInterface;
