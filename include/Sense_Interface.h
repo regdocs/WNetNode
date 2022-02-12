@@ -102,6 +102,7 @@ std::vector<std::string> Sense_Interface::parseSynWordVectorInterface(std::vecto
                 }
 
                 replaceStringUscoreWithSpace(&t);
+                std::cout << t;
                 l_synWordVectorInterface.push_back(t);
         }
         return l_synWordVectorInterface;
@@ -582,17 +583,17 @@ void Sense_Interface::previewSenseInterface()
         std::string out, t, tab = "\t", colonSpace = ": ", newline = "\n";
 
         auto prettyPrintVectorOfStrings = [&] (std::vector<std::string> *vos) -> std::string {
-                out.clear();
+                std::string a;
                 for (int i = 0; i < (*vos).size(); i++)
                 {
                         if ((*vos).size() - 1 != i) {
                                 t = (*vos)[i];
                                 t.append(", ");
-                                out.append(t);
+                                a.append(t);
                         } else
-                                out.append((*vos)[i]);
+                                a.append((*vos)[i]);
                 }
-                return out;
+                return a;
         };
 
         auto printNounPointers = [&] () -> std::string {
@@ -661,10 +662,10 @@ void Sense_Interface::previewSenseInterface()
 
         std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
         std::cout << "Synonym set:        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
-        std::cout << "Noun pointers:      " << printNounPointers() << std::endl;
-        std::cout << "Verb pointers:      " << printVerbPointers() << std::endl;
-        std::cout << "Adjective pointers: " << printAdjectivePointers() << std::endl;
-        std::cout << "Adverb pointers:    " << printAdverbPointers() << std::endl;
+        std::cout << "Noun pointers:      " << newline << printNounPointers() << std::endl;
+        std::cout << "Verb pointers:      " << newline << printVerbPointers() << std::endl;
+        std::cout << "Adjective pointers: " << newline << printAdjectivePointers() << std::endl;
+        std::cout << "Adverb pointers:    " << newline << printAdverbPointers() << std::endl;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
