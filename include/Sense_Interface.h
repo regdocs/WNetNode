@@ -128,7 +128,9 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
                         auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
                                 std::string w = *elementOfElement;
                                 replaceStringUscoreWithSpace(&w);
-                                (*element).push_back(w);
+                                if (!bool_ContainedIn_(&w, element)) {
+                                        (*element).push_back(w);
+                                }
                         };
 
                         // placeholder variable for the returned string
@@ -292,7 +294,9 @@ jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Poi
                         auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
                                 std::string w = *elementOfElement;
                                 replaceStringUscoreWithSpace(&w);
-                                (*element).push_back(w);
+                                if (!bool_ContainedIn_(&w, element)) {
+                                        (*element).push_back(w);
+                                }
                         };
 
                         // placeholder variable for the returned string
@@ -408,7 +412,9 @@ jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::
                         auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
                                 std::string w = *elementOfElement;
                                 replaceStringUscoreWithSpace(&w);
-                                (*element).push_back(w);
+                                if (!bool_ContainedIn_(&w, element)) {
+                                        (*element).push_back(w);
+                                }
                         };
 
                         // placeholder variable for the returned string
@@ -512,7 +518,9 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
                         auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
                                 std::string w = *elementOfElement;
                                 replaceStringUscoreWithSpace(&w);
-                                (*element).push_back(w);
+                                if (!bool_ContainedIn_(&w, element)) {
+                                        (*element).push_back(w);
+                                }
                         };
 
                         // placeholder variable for the returned string
