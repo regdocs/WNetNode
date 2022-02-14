@@ -600,65 +600,109 @@ void Sense_Interface::previewSenseInterface()
 
         auto printNounPointers = [&] () -> std::string {
                 out.clear();
-                out.append(tab + nounPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.antonym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hypernym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHypernym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hyponym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHyponym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberHolonym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceHolonym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partHolonym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberMeronym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[ 9] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceMeronym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[10] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partMeronym) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[11] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.attribute) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[12] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.derivationallyRelatedForm) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[13] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetTOPIC) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[14] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainTOPIC) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[15] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetREGION) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[16] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainREGION) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[17] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetUSAGE) + newline);
-                out.append(tab + nounPointerElemDisambiguationIndex[18] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainUSAGE) + newline);
+                if (!nounPointersInterface.antonym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.antonym) + newline);
+                if (!nounPointersInterface.hypernym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hypernym) + newline);
+                if (!nounPointersInterface.instanceHypernym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHypernym) + newline);
+                if (!nounPointersInterface.hyponym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.hyponym) + newline);
+                if (!nounPointersInterface.instanceHyponym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.instanceHyponym) + newline);
+                if (!nounPointersInterface.memberHolonym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberHolonym) + newline);
+                if (!nounPointersInterface.substanceHolonym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceHolonym) + newline);
+                if (!nounPointersInterface.partHolonym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partHolonym) + newline);
+                if (!nounPointersInterface.memberMeronym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberMeronym) + newline);
+                if (!nounPointersInterface.substanceMeronym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[ 9] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.substanceMeronym) + newline);
+                if (!nounPointersInterface.partMeronym.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[10] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.partMeronym) + newline);
+                if (!nounPointersInterface.attribute.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[11] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.attribute) + newline);
+                if (!nounPointersInterface.derivationallyRelatedForm.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[12] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.derivationallyRelatedForm) + newline);
+                if (!nounPointersInterface.domainOfSynsetTOPIC.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[13] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetTOPIC) + newline);
+                if (!nounPointersInterface.memberOfThisDomainTOPIC.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[14] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainTOPIC) + newline);
+                if (!nounPointersInterface.domainOfSynsetREGION.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[15] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetREGION) + newline);
+                if (!nounPointersInterface.memberOfThisDomainREGION.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[16] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainREGION) + newline);
+                if (!nounPointersInterface.domainOfSynsetUSAGE.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[17] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetUSAGE) + newline);
+                if (!nounPointersInterface.memberOfThisDomainUSAGE.empty())
+                        out.append(tab + nounPointerElemDisambiguationIndex[18] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainUSAGE) + newline);
                 return out;
         };
 
         auto printVerbPointers = [&] () -> std::string {
                 out.clear();
-                out.append(tab + verbPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.antonym) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hypernym) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hyponym) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.entailment) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.cause) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.alsoSee) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.verbGroup) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.derivationallyRelatedForm) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetTOPIC) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[ 9] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetREGION) + newline);
-                out.append(tab + verbPointerElemDisambiguationIndex[10] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetUSAGE) + newline);
+                if (!verbPointersInterface.antonym.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.antonym) + newline);
+                if (!verbPointersInterface.hypernym.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hypernym) + newline);
+                if (!verbPointersInterface.hyponym.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.hyponym) + newline);
+                if (!verbPointersInterface.entailment.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.entailment) + newline);
+                if (!verbPointersInterface.cause.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.cause) + newline);
+                if (!verbPointersInterface.alsoSee.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.alsoSee) + newline);
+                if (!verbPointersInterface.verbGroup.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.verbGroup) + newline);
+                if (!verbPointersInterface.derivationallyRelatedForm.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.derivationallyRelatedForm) + newline);
+                if (!verbPointersInterface.domainOfSynsetTOPIC.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetTOPIC) + newline);
+                if (!verbPointersInterface.domainOfSynsetREGION.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[ 9] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetREGION) + newline);
+                if (!verbPointersInterface.domainOfSynsetUSAGE.empty())
+                        out.append(tab + verbPointerElemDisambiguationIndex[10] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetUSAGE) + newline);
                 return out;
         };
 
         auto printAdjectivePointers = [&] () -> std::string {
                 out.clear();
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.antonym) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.similarTo) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.participleOfVerb) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.pertainym) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.attribute) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.alsoSee) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetTOPIC) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetREGION) + newline);
-                out.append(tab + adjectivePointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetUSAGE) + newline);
+                if (!adjectivePointersInterface.antonym.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.antonym) + newline);
+                if (!adjectivePointersInterface.similarTo.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.similarTo) + newline);
+                if (!adjectivePointersInterface.participleOfVerb.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.participleOfVerb) + newline);
+                if (!adjectivePointersInterface.pertainym.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.pertainym) + newline);
+                if (!adjectivePointersInterface.attribute.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.attribute) + newline);
+                if (!adjectivePointersInterface.alsoSee.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 5] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.alsoSee) + newline);
+                if (!adjectivePointersInterface.domainOfSynsetTOPIC.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 6] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetTOPIC) + newline);
+                if (!adjectivePointersInterface.domainOfSynsetREGION.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetREGION) + newline);
+                if (!adjectivePointersInterface.domainOfSynsetUSAGE.empty())
+                        out.append(tab + adjectivePointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetUSAGE) + newline);
                 return out;
         };
 
         auto printAdverbPointers = [&] () -> std::string {
                 out.clear();
-                out.append(tab + adverbPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.antonym) + newline);
-                out.append(tab + adverbPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.derivedFromAdjective) + newline);
-                out.append(tab + adverbPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetTOPIC) + newline);
-                out.append(tab + adverbPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
-                out.append(tab + adverbPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
+                if (!adverbPointersInterface.antonym.empty())
+                        out.append(tab + adverbPointerElemDisambiguationIndex[ 0] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.antonym) + newline);
+                if (!adverbPointersInterface.derivedFromAdjective.empty())
+                        out.append(tab + adverbPointerElemDisambiguationIndex[ 1] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.derivedFromAdjective) + newline);
+                if (!adverbPointersInterface.domainOfSynsetTOPIC.empty())
+                        out.append(tab + adverbPointerElemDisambiguationIndex[ 2] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetTOPIC) + newline);
+                if (!adverbPointersInterface.domainOfSynsetREGION.empty())
+                        out.append(tab + adverbPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
+                if (!adverbPointersInterface.domainOfSynsetUSAGE.empty())
+                        out.append(tab + adverbPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
                 return out;
         };
 
