@@ -68,14 +68,10 @@ Sense_Interface::Sense_Interface(std::string word, std::string sense): Sense(sen
         this -> synsetTypeInterface = parseSynsetTypeInterface(&synsetType);
         this -> synWordVectorInterface = parseSynWordVectorInterface(&wordLexidGroupVector);
         
-        if (synsetType == 'n')
-                nounPointersInterface = parseNounPointersInterface(&pointers);
-        else if (synsetType == 'v')
-                verbPointersInterface = parseVerbPointersInterface(&pointers);
-        else if (synsetType == 'a' || synsetType == 's')
-                adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
-        else if (synsetType == 'r')
-                adverbPointersInterface = parseAdverbPointersInterface(&pointers);
+        this -> nounPointersInterface = parseNounPointersInterface(&pointers);
+        this -> verbPointersInterface = parseVerbPointersInterface(&pointers);
+        this -> adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
+        this -> adverbPointersInterface = parseAdverbPointersInterface(&pointers);
 
         // unused
         this -> frameInterface = parseFrameInterface(&frames);
@@ -119,7 +115,6 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
         for (int i = 0; i < (*pointers).size(); i++) {
                 // do, if source index of the pointer refers to wordInterface (word looked up)
                 if ((*pointers)[i].pos == "n" && ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0)) {
-                        
                         // getlining the target sense
                         filepath.append(posFile[(*pointers)[i].pos[0]]);
                         datapos.open(filepath.c_str());
