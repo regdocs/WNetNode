@@ -118,7 +118,7 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
 
         for (int i = 0; i < (*pointers).size(); i++) {
                 // do, if source index of the pointer refers to wordInterface (word looked up)
-                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                if ((*pointers)[i].pos == "n" && ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0)) {
                         
                         // getlining the target sense
                         filepath.append(posFile[(*pointers)[i].pos[0]]);
@@ -282,7 +282,7 @@ jay_io::VerbPointers Sense_Interface::parseVerbPointersInterface(std::vector<Poi
 
         for (int i = 0; i < (*pointers).size(); i++) {
                 // do, if source index of the pointer refers to wordInterface (word looked up)
-                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                if ((*pointers)[i].pos == "v" && ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0)) {
                         
                         // getlining the target sense
                         filepath.append(posFile[(*pointers)[i].pos[0]]);
@@ -398,7 +398,7 @@ jay_io::AdjectivePointers Sense_Interface::parseAdjectivePointersInterface(std::
 
         for (int i = 0; i < (*pointers).size(); i++) {
                 // do, if source index of the pointer refers to wordInterface (word looked up)
-                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                if (((*pointers)[i].pos == "a" || (*pointers)[i].pos == "s") && ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0)) {
                         
                         // getlining the target sense
                         filepath.append(posFile[(*pointers)[i].pos[0]]);
@@ -502,7 +502,7 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
 
         for (int i = 0; i < (*pointers).size(); i++) {
                 // do, if source index of the pointer refers to wordInterface (word looked up)
-                if ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0) {
+                if ((*pointers)[i].pos == "r" && ((*pointers)[i].source == wordIndexInterface || (*pointers)[i].source == 0)) {
                         
                         // getlining the target sense
                         filepath.append(posFile[(*pointers)[i].pos[0]]);
@@ -665,6 +665,7 @@ void Sense_Interface::previewSenseInterface()
         std::cout << "Verb pointers:      " << newline << printVerbPointers() << std::endl;
         std::cout << "Adjective pointers: " << newline << printAdjectivePointers() << std::endl;
         std::cout << "Adverb pointers:    " << newline << printAdverbPointers() << std::endl;
+        std::cout << "wII:                " << wordIndexInterface << newline;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
