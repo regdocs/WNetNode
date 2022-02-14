@@ -712,7 +712,6 @@ void Sense_Interface::previewSenseInterface()
         std::cout << "Verb pointers:      " << newline << printVerbPointers() << std::endl;
         std::cout << "Adjective pointers: " << newline << printAdjectivePointers() << std::endl;
         std::cout << "Adverb pointers:    " << newline << printAdverbPointers() << std::endl;
-        std::cout << "wII:                " << wordIndexInterface << newline;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
