@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <cctype>
 #include <stdexcept>
@@ -108,4 +109,20 @@ auto stringToLower = [](std::string *s) -> std::string {
                 t.replace(i, 1, parseCharToString(tolower(t[i])));
         }
         return t;
+};
+
+// return whether string s is contained in vector v
+auto bool_ContainedIn_ = [](auto *s, auto *v) -> bool {
+        for (auto i: *v) {
+                if (i == *s)
+                        return true;
+        }
+        return false;
+};
+
+// print elements of vector v
+auto prettyPrintVectorOfElements = [](auto *v) {
+        for (int i = 0; i < (*v).size(); i++) {
+                std::cout << " <" << (*v)[i] << "> ";
+        }
 };
