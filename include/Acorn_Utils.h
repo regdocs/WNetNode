@@ -7,7 +7,7 @@
 #include "Synset_Pointers.h"
 
 // parse lexicographer file index and return equivalent file name
-auto parseLexFilename = [](int *lexFilenum) -> std::string {
+auto parseLexFilename = [] (int *lexFilenum) -> std::string {
         switch (*lexFilenum) {
                 case 0:  return "adj.all";            case 1:  return "adj.pert";         case 2:  return "adv.all";            case 3:  return "noun.Tops";
                 case 4:  return "noun.act";           case 5:  return "noun.animal";      case 6:  return "noun.artifact";      case 7:  return "noun.attribute";
@@ -25,7 +25,7 @@ auto parseLexFilename = [](int *lexFilenum) -> std::string {
 };
 
 // parse synset type character and return complete string equivalent
-auto parseSynsetTypeExpanded = [](char *synsetType) {
+auto parseSynsetTypeExpanded = [] (char *synsetType) {
         switch (*synsetType) {
                 case 'n': return "noun";
                 case 'v': return "verb";
@@ -165,7 +165,7 @@ std::map<int, std::string> adverbPointerElemDisambiguationIndex = {
 };
 
 // parse pointer_symbols and return disambiguated pointer type
-auto parsePointerSymbol = [](std::string pointerSymbol, std::string pos) {
+auto parsePointerSymbol = [] (std::string pointerSymbol, std::string pos) {
         switch (pos[0]) {
                 case 'n': return nounPointerDisambiguation[pointerSymbol];
                 case 'v': return verbPointerDisambiguation[pointerSymbol];
