@@ -599,7 +599,7 @@ void Sense_Interface::previewSenseInterface()
         };
 
         bool nounPointerIsEmpty = false;
-        auto printNounPointers = [&] () -> std::string {
+        auto formatNounPointers = [&] () -> std::string {
                 out.clear();
                 if (!nounPointersInterface.antonym.empty())
                         out.append(tab + nounPointerElemDisambiguationIndex[ 0] + colonSpace 
@@ -682,7 +682,7 @@ void Sense_Interface::previewSenseInterface()
         };
 
         bool verbPointerIsEmpty = false;
-        auto printVerbPointers = [&] () -> std::string {
+        auto formatVerbPointers = [&] () -> std::string {
                 out.clear();
                 if (!verbPointersInterface.antonym.empty())
                         out.append(tab + verbPointerElemDisambiguationIndex[ 0] + colonSpace 
@@ -733,7 +733,7 @@ void Sense_Interface::previewSenseInterface()
         };
 
         bool adjectivePointerIsEmpty = false;
-        auto printAdjectivePointers = [&] () -> std::string {
+        auto formatAdjectivePointers = [&] () -> std::string {
                 out.clear();
                 if (!adjectivePointersInterface.antonym.empty())
                         out.append(tab + adjectivePointerElemDisambiguationIndex[ 0] + colonSpace 
@@ -776,7 +776,7 @@ void Sense_Interface::previewSenseInterface()
         };
 
         bool adverbPointerIsEmpty = false;
-        auto printAdverbPointers = [&] () -> std::string {
+        auto formatAdverbPointers = [&] () -> std::string {
                 out.clear();
                 if (!adverbPointersInterface.antonym.empty())
                         out.append(tab + adverbPointerElemDisambiguationIndex[ 0] + colonSpace 
@@ -793,7 +793,7 @@ void Sense_Interface::previewSenseInterface()
                 if (!adverbPointersInterface.domainOfSynsetREGION.empty())
                         out.append(tab + adverbPointerElemDisambiguationIndex[ 3] + colonSpace 
                                         + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
-                                        
+
                 if (!adverbPointersInterface.domainOfSynsetUSAGE.empty())
                         out.append(tab + adverbPointerElemDisambiguationIndex[ 4] + colonSpace 
                                         + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
@@ -805,10 +805,10 @@ void Sense_Interface::previewSenseInterface()
         std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
         std::cout << "Synonym set:        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
 
-        std::string nP = printNounPointers();
-        std::string vP = printVerbPointers();
-        std::string aP = printAdjectivePointers();
-        std::string rP = printAdverbPointers();
+        std::string nP = formatNounPointers();
+        std::string vP = formatVerbPointers();
+        std::string aP = formatAdjectivePointers();
+        std::string rP = formatAdverbPointers();
 
         if (!nounPointerIsEmpty)
                 std::cout << "Noun pointers:      " << newline << nP << std::endl;
