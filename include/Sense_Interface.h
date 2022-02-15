@@ -598,6 +598,7 @@ void Sense_Interface::previewSenseInterface()
                 return a;
         };
 
+        bool nounPointerIsEmpty = false;
         auto printNounPointers = [&] () -> std::string {
                 out.clear();
                 if (!nounPointersInterface.antonym.empty())
@@ -638,9 +639,12 @@ void Sense_Interface::previewSenseInterface()
                         out.append(tab + nounPointerElemDisambiguationIndex[17] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.domainOfSynsetUSAGE) + newline);
                 if (!nounPointersInterface.memberOfThisDomainUSAGE.empty())
                         out.append(tab + nounPointerElemDisambiguationIndex[18] + colonSpace + prettyPrintVectorOfStrings(&nounPointersInterface.memberOfThisDomainUSAGE) + newline);
+                if (out.empty())
+                        nounPointerIsEmpty = true;
                 return out;
         };
 
+        bool verbPointerIsEmpty = false;
         auto printVerbPointers = [&] () -> std::string {
                 out.clear();
                 if (!verbPointersInterface.antonym.empty())
@@ -665,9 +669,12 @@ void Sense_Interface::previewSenseInterface()
                         out.append(tab + verbPointerElemDisambiguationIndex[ 9] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetREGION) + newline);
                 if (!verbPointersInterface.domainOfSynsetUSAGE.empty())
                         out.append(tab + verbPointerElemDisambiguationIndex[10] + colonSpace + prettyPrintVectorOfStrings(&verbPointersInterface.domainOfSynsetUSAGE) + newline);
+                if (out.empty())
+                        verbPointerIsEmpty = true;
                 return out;
         };
 
+        bool adjectivePointerIsEmpty = false;
         auto printAdjectivePointers = [&] () -> std::string {
                 out.clear();
                 if (!adjectivePointersInterface.antonym.empty())
@@ -688,9 +695,12 @@ void Sense_Interface::previewSenseInterface()
                         out.append(tab + adjectivePointerElemDisambiguationIndex[ 7] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetREGION) + newline);
                 if (!adjectivePointersInterface.domainOfSynsetUSAGE.empty())
                         out.append(tab + adjectivePointerElemDisambiguationIndex[ 8] + colonSpace + prettyPrintVectorOfStrings(&adjectivePointersInterface.domainOfSynsetUSAGE) + newline);
+                if (out.empty())
+                        adjectivePointerIsEmpty = true;
                 return out;
         };
 
+        bool adverbPointerIsEmpty = false;
         auto printAdverbPointers = [&] () -> std::string {
                 out.clear();
                 if (!adverbPointersInterface.antonym.empty())
@@ -703,15 +713,27 @@ void Sense_Interface::previewSenseInterface()
                         out.append(tab + adverbPointerElemDisambiguationIndex[ 3] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetREGION) + newline);
                 if (!adverbPointersInterface.domainOfSynsetUSAGE.empty())
                         out.append(tab + adverbPointerElemDisambiguationIndex[ 4] + colonSpace + prettyPrintVectorOfStrings(&adverbPointersInterface.domainOfSynsetUSAGE) + newline);
+                if (out.empty())
+                        adverbPointerIsEmpty = true;
                 return out;
         };
 
         std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
         std::cout << "Synonym set:        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
-        std::cout << "Noun pointers:      " << newline << printNounPointers() << std::endl;
-        std::cout << "Verb pointers:      " << newline << printVerbPointers() << std::endl;
-        std::cout << "Adjective pointers: " << newline << printAdjectivePointers() << std::endl;
-        std::cout << "Adverb pointers:    " << newline << printAdverbPointers() << std::endl;
+
+        std::string nP = printNounPointers();
+        std::string vP = printVerbPointers();
+        std::string aP = printAdjectivePointers();
+        std::string rP = printAdverbPointers();
+
+        if (!nounPointerIsEmpty)
+                std::cout << "Noun pointers:      " << newline << nP << std::endl;
+        if (!verbPointerIsEmpty)
+                std::cout << "Verb pointers:      " << newline << vP << std::endl;
+        if (!adjectivePointerIsEmpty)
+                std::cout << "Adjective pointers: " << newline << aP << std::endl;
+        if (!adverbPointerIsEmpty)
+                std::cout << "Adverb pointers:    " << newline << rP << std::endl;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
