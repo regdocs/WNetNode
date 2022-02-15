@@ -8,21 +8,21 @@
 #include <map>
 
 // left-trim string
-auto leftTrim = [](std::string *s) {
+auto leftTrim = [] (std::string *s) {
         for (int i = 0; (*s)[i] == ' '; i++) {
                 (*s).erase(i, 1);
         }
 };
 
 // right-trim string
-auto rightTrim = [](std::string *s) {
+auto rightTrim = [] (std::string *s) {
         for (int i = (*s).length() - 1; (*s)[i] == ' '; i--) {
                 (*s).erase(i, 1);
         }
 };
 
 // left-trim and right-trim string
-auto trim = [](std::string *s) {
+auto trim = [] (std::string *s) {
         for (int i = 0; (*s)[i] == ' '; i++) {
                 (*s).erase(i, 1);
         }
@@ -32,7 +32,7 @@ auto trim = [](std::string *s) {
 };
 
 // parse string to integer
-auto parseStringToInteger = [](std::string *s) -> int {
+auto parseStringToInteger = [] (std::string *s) -> int {
         int number = 0, stringLengthMinusOne = (*s).length() - 1;
 
         std::map<char, int> decEqv = {
@@ -55,7 +55,7 @@ auto parseStringToInteger = [](std::string *s) -> int {
 };
 
 // parse hex string to decimal integer
-auto parseHexStringToDecInteger = [](std::string *s) -> int {
+auto parseHexStringToDecInteger = [] (std::string *s) -> int {
 
         std::map<char, int> decEqv = {
                 {'0',  0}, {'4',  4}, {'8',  8}, {'c', 12},
@@ -88,7 +88,7 @@ auto parseHexStringToDecInteger = [](std::string *s) -> int {
 };
 
 // return string parameter replacing underscores with spaces
-auto replaceStringUscoreWithSpace = [](std::string *s) {
+auto replaceStringUscoreWithSpace = [] (std::string *s) {
         for (int i = 0; i < (*s).length(); i++) {
                 if ((*s)[i] == '_')
                         (*s).replace(i, 1, " ");
@@ -96,14 +96,14 @@ auto replaceStringUscoreWithSpace = [](std::string *s) {
 };
 
 // return string of length 1 with parameter at index 0
-auto parseCharToString = [](char c) -> std::string {
+auto parseCharToString = [] (char c) -> std::string {
         std::string t = "";
         t.push_back(c);
         return t;
 };
 
 // return string parameter replacing alphabets with their lowercase
-auto stringToLower = [](std::string *s) -> std::string {
+auto stringToLower = [] (std::string *s) -> std::string {
         std::string t = *s;
         for (int i = 0; i < t.length(); i++) {
                 t.replace(i, 1, parseCharToString(tolower(t[i])));
@@ -112,7 +112,7 @@ auto stringToLower = [](std::string *s) -> std::string {
 };
 
 // return whether string s is contained in vector v
-auto bool_ContainedIn_ = [](auto *s, auto *v) -> bool {
+auto bool_ContainedIn_ = [] (auto *s, auto *v) -> bool {
         for (auto i: *v) {
                 if (i == *s)
                         return true;
@@ -121,7 +121,7 @@ auto bool_ContainedIn_ = [](auto *s, auto *v) -> bool {
 };
 
 // print elements of vector v
-auto prettyPrintVectorOfElements = [](auto *v) {
+auto prettyPrintVectorOfElements = [] (auto *v) {
         for (int i = 0; i < (*v).size(); i++) {
                 std::cout << " <" << (*v)[i] << "> ";
         }
