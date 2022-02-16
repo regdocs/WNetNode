@@ -95,6 +95,14 @@ auto replaceStringUscoreWithSpace = [] (std::string *s) {
         }
 };
 
+// return string parameter replacing spaces with underscores
+auto replaceStringSpaceWithUscore = [] (std::string *s) {
+        for (int i = 0; i < (*s).length(); i++) {
+                if ((*s)[i] == ' ')
+                        (*s).replace(i, 1, "_");
+        }
+};
+
 // return string of length 1 with parameter at index 0
 auto parseCharToString = [] (char c) -> std::string {
         std::string t = "";
@@ -126,3 +134,15 @@ auto prettyPrintVectorOfElements = [] (auto *v) {
                 std::cout << " <" << (*v)[i] << "> ";
         }
 };
+
+// return string parameter with the letter at index 0 (if exists) capitalised
+auto toSentenceCase = [] (std::string *s) -> std::string {
+        std::string t;
+        if (isalpha((*s)[0])) {
+                t.push_back(toupper((*s)[0]));
+                for (int i = 1; i < (*s).length(); i++)
+                        t.push_back((*s)[i]);
+                return t;
+        }
+        return *s;
+}
