@@ -32,6 +32,11 @@ class Sense_Interface: public Sense
                 // from [std::vector<Pointer>] pointers for "data.adv"
                 jay_io::AdverbPointers /*.....*/ adverbPointersInterface;
 
+                // from [std::string] def (sh. definition)
+                std::string defInterface;
+                // from [std::string] exampleSentences
+                std::vector<std::string> exampleSentencesInterface;
+
                 // from [std::vector<Frame>] frames for "data.verb"
                 std::vector<std::string> frameInterface;
 
@@ -58,6 +63,10 @@ class Sense_Interface: public Sense
                 jay_io::VerbPointers /*.......*/ parseVerbPointersInterface /*.......*/ (std::vector<Pointer>*);
                 jay_io::AdjectivePointers /*..*/ parseAdjectivePointersInterface /*..*/ (std::vector<Pointer>*);
                 jay_io::AdverbPointers /*.....*/ parseAdverbPointersInterface /*.....*/ (std::vector<Pointer>*);
+
+                std::string /*................*/ parseDefInterface /*................*/ (std::string*);
+                std::vector /*................*/ parseExampleSentencesInterface /*...*/ (std::vector<std::string>*);
+
                 std::vector<std::string> /*...*/ parseFrameInterface /*..............*/ (std::vector<Frame>*);
 };
 
@@ -72,6 +81,9 @@ Sense_Interface::Sense_Interface(std::string word, std::string sense): Sense(sen
         this -> verbPointersInterface = parseVerbPointersInterface(&pointers);
         this -> adjectivePointersInterface = parseAdjectivePointersInterface(&pointers);
         this -> adverbPointersInterface = parseAdverbPointersInterface(&pointers);
+
+        this -> defInterface = parseDefInterface(&def);
+        this -> exampleSentencesInterface = parseExampleSentencesInterface(&exampleSentences);
 
         // unused
         this -> frameInterface = parseFrameInterface(&frames);
@@ -575,7 +587,17 @@ jay_io::AdverbPointers Sense_Interface::parseAdverbPointersInterface(std::vector
         return p;
 }
 
-std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame>* l_frames)
+std::string Sense_Interface::parseDefInterface(std::string *l_def)
+{
+        return toSentenceCase(l_def);
+}
+
+std::vector<std::string> Sense_Interface::parseExampleSentencesInterface(std::vector<std::string> *l_exampleSentences)
+{
+        return *l_exampleSentences;
+}
+
+std::vector<std::string> Sense_Interface::parseFrameInterface(std::vector<Frame> *l_frames)
 {
         return {""};
 }
