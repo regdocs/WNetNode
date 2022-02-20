@@ -25,6 +25,8 @@ class Index
                 std::vector<int> parseSynsetOffsets(std::vector<std::string>*);
 
         public:
+                // whether object carries index cargo
+                bool isEmpty;
                 // standard container for the space separated dataRow components
                 std::vector<std::string> fragments;
                 // from [std::string] lemma
@@ -44,21 +46,23 @@ class Index
                 // from [std::string] [synset_offset...]
                 std::vector<int> synsetOffsets;
 
-                Index(std::string);
+                Index(std::string, bool);
                 void previewIndex(void);
 };
 
-Index::Index(std::string dataRow)
+Index::Index(std::string dataRow, bool isEmpty = false)
 {
-        this -> fragments = fragmentDataRow(&dataRow);
-        this -> lemma = parseLemma(&fragments);
-        this -> posFilename = parsePos(&fragments);
-        this -> synsetCount = parseSynsetCount(&fragments);
-        this -> pointerCount = parsePointerCount(&fragments);
-        this -> pointerSymbols = parsePointerSymbols(&fragments);
-        this -> senseCount = synsetCount;
-        this -> tagsenseCount = parseTagsenseCount(&fragments);
-        this -> synsetOffsets = parseSynsetOffsets(&fragments);
+        if (!isEmpty) {
+                this -> fragments = fragmentDataRow(&dataRow);
+                this -> lemma = parseLemma(&fragments);
+                this -> posFilename = parsePos(&fragments);
+                this -> synsetCount = parseSynsetCount(&fragments);
+                this -> pointerCount = parsePointerCount(&fragments);
+                this -> pointerSymbols = parsePointerSymbols(&fragments);
+                this -> senseCount = synsetCount;
+                this -> tagsenseCount = parseTagsenseCount(&fragments);
+                this -> synsetOffsets = parseSynsetOffsets(&fragments);
+        }
 }
 
 std::vector<std::string> Index::fragmentDataRow(std::string *dataRow)
