@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include "Sense_Interface.h"
-#include "String_Utils.h"
-#include "WN3_Path.h"
+#include "sense_interface.h"
+#include "string_utils.h"
+#include "wn3_path.h"
 
 namespace jay_io
 {

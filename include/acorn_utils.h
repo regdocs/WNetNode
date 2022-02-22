@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-#include "Synset_Pointers.h"
+#include "synset_pointers.h"
 
 // parse lexicographer file index and return equivalent file name
 auto parseLexFilename = [] (int *lexFilenum) -> std::string {
@@ -18,7 +18,7 @@ auto parseLexFilename = [] (int *lexFilenum) -> std::string {
                 case 24: return "noun.relation";      case 25: return "noun.shape";       case 26: return "noun.state";         case 27: return "noun.substance";
                 case 28: return "noun.time";          case 29: return "verb.body";        case 30: return "verb.change";        case 31: return "verb.cognition";
                 case 32: return "verb.communication"; case 33: return "verb.competition"; case 34: return "verb.consumption";   case 35: return "verb.contact";
-                case 36: return "verb.creation";      case 37: return "verb.emotion";     case 38: return "verb.motion";        case 39: return "verb.perception"; 
+                case 36: return "verb.creation";      case 37: return "verb.emotion";     case 38: return "verb.motion";        case 39: return "verb.perception";
                 case 40: return "verb.possession";    case 41: return "verb.social";      case 42: return "verb.stative";       case 43: return "verb.weather";
                                                                                                                                 case 44: return "adj.ppl";
         }
@@ -97,8 +97,8 @@ std::map<std::string, std::string> verbPointerDisambiguation = {
         {"~",  "Hyponym"},
         {"*",  "Entailment"},
         {">",  "Cause"},
-        {"^",  "Also see"}, 
-        {"$",  "Verb Group"}, 
+        {"^",  "Also see"},
+        {"$",  "Verb Group"},
         {"+",  "Derivationally related form"},
         {";c", "Domain of synset - TOPIC"},
         {";r", "Domain of synset - REGION"},
@@ -112,8 +112,8 @@ std::map<int, std::string> verbPointerElemDisambiguationIndex = {
         { 2, "Hyponym"},
         { 3, "Entailment"},
         { 4, "Cause"},
-        { 5, "Also see"}, 
-        { 6, "Verb Group"}, 
+        { 5, "Also see"},
+        { 6, "Verb Group"},
         { 7, "Derivationally related form"},
         { 8, "Domain of synset - TOPIC"},
         { 9, "Domain of synset - REGION"},
@@ -148,7 +148,7 @@ std::map<int, std::string> adjectivePointerElemDisambiguationIndex = {
 
 // adverb pointer disambiguation map
 std::map<std::string, std::string> adverbPointerDisambiguation = {
-        {"!",  "Antonym"}, 
+        {"!",  "Antonym"},
         {"\\", "Derived from adjective"},
         {";c", "Domain of synset - TOPIC"},
         {";r", "Domain of synset - REGION"},
@@ -157,7 +157,7 @@ std::map<std::string, std::string> adverbPointerDisambiguation = {
 
 // adverb pointer element index map
 std::map<int, std::string> adverbPointerElemDisambiguationIndex = {
-        {0, "Antonym"}, 
+        {0, "Antonym"},
         {1, "Derived from adjective"},
         {2, "Domain of synset - TOPIC"},
         {3, "Domain of synset - REGION"},

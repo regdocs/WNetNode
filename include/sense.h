@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <locale>
-#include "String_Utils.h"
+#include "string_utils.h"
 
 #define SYNSET_OFFSET_IDX 0
 #define LEX_FILENUM_IDX 1
@@ -61,7 +61,7 @@ class Sense
                 std::string def;
                 // from [std::string] gloss
                 std::vector<std::string> exampleSentences;
-                
+
                 // constructor
                 Sense(std::string);
                 // member preview
@@ -92,15 +92,15 @@ Sense::Sense(std::string dataRow)
                 this -> synsetType = parseSynsetType(&fragments);
                 this -> synCount = parseSynCount(&fragments);
                 this -> wordLexidGroupVector = parseWordLexidGroup(&fragments);
-                
+
                 this -> pointerCount = parsePointerCount(&fragments);
                 this -> pointers = parsePointers(&fragments);
-                
+
                 if (synsetType == 'v') {
                         this -> frameCount = parseFrameCount(&fragments);
                         this -> frames = parseFrames(&fragments);
                 }
-                
+
                 this -> def = parseDefinition(&fragments);
                 this -> exampleSentences = parseExampleSentences(&fragments);
         }
@@ -197,7 +197,7 @@ std::vector<WordLexidGroup> Sense::parseWordLexidGroup(std::vector<std::string> 
 
 int Sense::parsePointerCount(std::vector<std::string> *fragments)
 {
-        /* parse string ptr_cnt and spit integer equivalent */ 
+        /* parse string ptr_cnt and spit integer equivalent */
         int preceedingFragmentsCount = 4 + 2*synCount;
         return parseStringToInteger(&(*fragments)[preceedingFragmentsCount]);
 }
@@ -267,7 +267,7 @@ std::vector<std::string> Sense::parseExampleSentences(std::vector<std::string> *
         std::vector<std::string> l_exampleSentences;
         int preceedingFragmentsCount = 4 + 2*synCount + 1 + 4*pointerCount
                                 + (synsetType == 'v' ? (1 + 3*frameCount) : 0) + 1;
-        
+
         for (int i = preceedingFragmentsCount; i < (*fragments).size(); i++) {
                 l_exampleSentences.push_back(
                         // returning substring excluding leading and trailing quotes
