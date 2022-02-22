@@ -1,23 +1,21 @@
+#ifndef POS_GROUP_H_
+#define POS_GROUP_H_
+
 #include <string>
 #include <vector>
-#include "Sense.h"
+#include "Sense_Interface.h"
 
-using namespace std;
-
-class POSGroup
+namespace jay_io
 {
-	private:
-		string prettyLemma;
-		string prettyPos;
-		vector<string> inflections;
-		vector<Sense> senses;
-	
-	public:
-		POSGroup(string lemma, string pos, vector<string> inflections, vector<Sense> senses)
-		{
-			this -> prettyLemma = lemma;
-			this -> prettyPos = pos;
-			this -> inflections = inflections;
-			this -> senses = senses;
-		}
+
+struct POS_Group
+{
+        std::string prettyPos;
+        std::vector<std::string> inflections;
+        std::vector<std::string> pronunciation;
+        std::vector<Sense_Interface> prettySenses;
 };
+
+}
+
+#endif /* POS_GROUP_H_ */
