@@ -12,14 +12,10 @@
 namespace jay_io
 {
 
-class Word_Log
+struct Word_Log
 {
-	public:
-		std::string word;
-                std::vector<POS_Group> posGroups;
-        
-        private:
-                jay_io::Disambiguation lookUp(std::string, bool*);
+        std::string word;
+        std::vector<POS_Group> posGroups;
 };
 
 }
