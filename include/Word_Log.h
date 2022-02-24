@@ -4,10 +4,10 @@
 #include <vector>
 #include <string>
 
-#include "Sense_Interface.h"
-#include "String_Utils.h"
-#include "POS_Group.h"
-#include "WN3_Path.h"
+#include "sense_interface.h"
+#include "string_utils.h"
+#include "pos_group.h"
+#include "wn3_path.h"
 
 namespace jay_io
 {
@@ -16,7 +16,7 @@ class Word_Log
 {
 	public:
 		std::string word;
-                std::vector<POSGroup> posGroups;
+                std::vector<POS_Group> posGroups;
         
         private:
                 jay_io::Disambiguation lookUp(std::string, bool*);

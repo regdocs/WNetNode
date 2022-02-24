@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Sense_Interface.h"
+#include "sense_interface.h"
 
 namespace jay_io
 {
