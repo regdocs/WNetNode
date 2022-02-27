@@ -148,4 +148,4 @@ auto toSentenceCase = [] (std::string *s) -> std::string {
         return *s;
 }
 
-#endif STRING_UTILS_H_
+#endif /* STRING_UTILS_H_ */
