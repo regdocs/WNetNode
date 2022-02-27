@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STRING_UTILS_H_
+#define STRING_UTILS_H_
 
 #include <iostream>
 #include <string>
@@ -146,3 +147,5 @@ auto toSentenceCase = [] (std::string *s) -> std::string {
         }
         return *s;
 }
+
+#endif STRING_UTILS_H_
