@@ -146,6 +146,6 @@ auto toSentenceCase = [] (std::string *s) -> std::string {
                 return t;
         }
         return *s;
-}
+};
 
 #endif /* STRING_UTILS_H_ */
