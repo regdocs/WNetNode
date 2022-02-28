@@ -1,4 +1,4 @@
-#include "../include/Sense_Interface.h"
+#include "../include/sense_interface.h"
 using namespace std;
 
 int main()
