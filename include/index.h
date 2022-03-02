@@ -8,6 +8,7 @@
 #include "wn3_path.h"
 #include "acorn_utils.h"
 #include "string_utils.h"
+#include "sense_interface.h"
 
 namespace jay_io
 {
@@ -25,7 +26,7 @@ class Index
                 std::vector<int> parseSynsetOffsets(std::vector<std::string>*);
 
         public:
-                // whether object carries index cargo
+                // whether object carries index.pos cargo
                 bool isEmpty;
                 // standard container for the space separated dataRow components
                 std::vector<std::string> fragments;
@@ -46,9 +47,15 @@ class Index
                 // from [std::string] [synset_offset...]
                 std::vector<int> synsetOffsets;
 
+                // ctor
+                Index();
                 Index(std::string, bool);
+                Index(const Index&);
+
                 void previewIndex(void);
 };
+
+Index::Index() : isEmpty(true) {}
 
 Index::Index(std::string dataRow, bool isEmpty = false)
 {
@@ -63,6 +70,21 @@ Index::Index(std::string dataRow, bool isEmpty = false)
                 this -> tagsenseCount = parseTagsenseCount(&fragments);
                 this -> synsetOffsets = parseSynsetOffsets(&fragments);
         }
+        else
+                this -> isEmpty = true;
+}
+
+Index::Index(const Index& i)
+{
+        this -> fragments = i.fragments;
+        this -> lemma = i.lemma;
+        this -> posFilename = i.posFilename;
+        this -> synsetCount = i.synsetCount;
+        this -> pointerCount = i.pointerCount;
+        this -> pointerSymbols = i.pointerSymbols;
+        this -> senseCount = i.senseCount;
+        this -> tagsenseCount = i.tagsenseCount;
+        this -> synsetOffsets = i.synsetOffsets;
 }
 
 std::vector<std::string> Index::fragmentDataRow(std::string *dataRow)
