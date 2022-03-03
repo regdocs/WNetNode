@@ -73,7 +73,7 @@ jay_io::Index Acorn::binarySearchPOS(std::string query, std::string filepath)
                 return pos;
         };
 
-        auto findStartByteOfIndexPOS = [] (std::fstream* f) -> std::streamoff {
+        auto returnFirstByteOffset = [] (std::fstream* f) -> std::streamoff {
                 std::string s;
                 std::streamoff tempOffset, startOffset;
                 bool isStartByteFound = false;
@@ -99,7 +99,7 @@ jay_io::Index Acorn::binarySearchPOS(std::string query, std::string filepath)
 
         bool isEntryFound = false;
         jay_io::Index t, i;
-        std::streamoff start = findStartByteOfIndexPOS(&file), stop = returnFinalByteOffset(&file);
+        std::streamoff start = returnFirstByteOffset(&file), stop = returnFinalByteOffset(&file);
 
         while (!isEntryFound) {
                 int mean = (start + stop)/2;
