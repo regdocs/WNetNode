@@ -93,6 +93,7 @@ jay_io::Index Acorn::binarySearchPOS(std::string query, std::string filepath)
                 }
 
                 (*f).seekg(0);
+                (*f).close();
                 return startOffset;
         };
 
