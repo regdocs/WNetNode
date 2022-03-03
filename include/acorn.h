@@ -81,7 +81,7 @@ jay_io::Index Acorn::binarySearchPOS(std::string query, std::string filepath)
                 (*f).seekg(0);
                 while (!isStartByteFound) {
                         std::streamoff tempOffset = (*f).tellg(); 
-                        std::getline(*f, s, '\n');
+                        std::getline(*f, s, UNIX_EOL);
                         (*f).clear();
 
                         if (s[0] == ' ' && s[1] == ' ')
@@ -130,8 +130,8 @@ jay_io::Index Acorn::returnIndexObjAtByte_InStream_(int offset, std::fstream *fs
         while (!isExtracted) {
                 (*fs).get(c);
                 (*fs).clear();
-                if (c == '\n') {
-                        std::getline(*fs, extr, '\n');
+                if (c == UNIX_EOL) {
+                        std::getline(*fs, extr, UNIX_EOL);
                         (*fs).clear();
                         isExtracted = true;
                 }
