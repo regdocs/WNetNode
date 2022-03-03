@@ -1,5 +1,5 @@
-#ifndef WORD_INTERFACE_H_
-#define WORD_INTERFACE_H_
+#ifndef ACORN_H_
+#define ACORN_H_
 
 // relative path to project root from this file
 #define PATH_TO_ROOT "../"
@@ -147,4 +147,4 @@ jay_io::Index Acorn::returnIndexObjAtByte_InStream_(int offset, std::fstream *fs
 
 }
 
-#endif /* WORD_INTERFACE_H_ */
+#endif /* ACORN_H_ */
