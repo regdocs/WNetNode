@@ -137,7 +137,7 @@ jay_io::NounPointers Sense_Interface::parseNounPointersInterface(std::vector<Poi
                         Sense sense(t);
 
                         // push back on pointer's element with the word from the synset
-                        auto pushbackOnPointerElement_With_ = [](std::vector<std::string> *element, std::string *elementOfElement) {
+                        auto pushbackOnPointerElement_With_ = [] (std::vector<std::string> *element, std::string *elementOfElement) {
                                 std::string w = *elementOfElement;
                                 replaceStringUscoreWithSpace(&w);
                                 if (!bool_ContainedIn_(&w, element)) {
