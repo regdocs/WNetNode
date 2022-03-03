@@ -65,7 +65,7 @@ class Sense_Interface: public Sense
                 jay_io::AdverbPointers /*.....*/ parseAdverbPointersInterface /*.....*/ (std::vector<Pointer>*);
 
                 std::string /*................*/ parseDefInterface /*................*/ (std::string*);
-                std::vector /*................*/ parseExampleSentencesInterface /*...*/ (std::vector<std::string>*);
+                std::vector<std::string> /*...*/ parseExampleSentencesInterface /*...*/ (std::vector<std::string>*);
 
                 std::vector<std::string> /*...*/ parseFrameInterface /*..............*/ (std::vector<Frame>*);
 };
