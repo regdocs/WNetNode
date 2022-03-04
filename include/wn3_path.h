@@ -8,7 +8,7 @@
 #define WN3DB_EXC_POS_PATH "wndb3/exc/"
 
 // lexicographer'ss file path relative to project root
-#define WN3DB_LEXFILE_FILE "wndb3/lex/"
+#define WN3DB_LEXFILE_PATH "wndb3/lex/"
 
 // verb frame file and related resources relative to project root
-#define WN3DB_VFRAMES_FILE "wndb3/frames/"
+#define WN3DB_VFRAMES_PATH "wndb3/frames/"
