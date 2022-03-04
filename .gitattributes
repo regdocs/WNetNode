@@ -1,6 +1,8 @@
+# Line endings
+*.* text eol=lf
+
 # Sources
 *.c     text diff=c
-
 *.cc    text diff=cpp
 *.cxx   text diff=cpp
 *.cpp   text diff=cpp
