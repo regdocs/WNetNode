@@ -35,8 +35,16 @@ auto parseSynsetTypeExpanded = [] (char *synsetType) {
         }
 };
 
+// exception file character and complete file name equivalent
+std::map<char, std::string> excPosFileNameFromChar = {
+        {'n', "noun.exc"},
+        {'v', "noun.exc"},
+        {'a', "adj.exc"},
+        {'r', "adv.exc"}
+}; 
+
 // pointer pos and data.pos file name map
-std::map<char, std::string> posFile = {
+std::map<char, std::string> dataPosFileNameFromChar = {
         {'n', "data.noun"},
         {'v', "data.verb"},
         {'a',  "data.adj"},
