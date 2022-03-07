@@ -33,7 +33,7 @@ class Index
                 // from [std::string] lemma
                 std::string lemma;
                 // from [std::string] pos
-                std::string posFilename;
+                std::string dataPosFileName;
                 // from [std::string] synset_cnt
                 int synsetCount;
                 // from [std::string] p_cnt
@@ -62,7 +62,7 @@ Index::Index(std::string dataRow, bool isEmpty = false)
         if (!isEmpty) {
                 this -> fragments = fragmentDataRow(&dataRow);
                 this -> lemma = parseLemma(&fragments);
-                this -> posFilename = parsePos(&fragments);
+                this -> dataPosFileName = parsePos(&fragments);
                 this -> synsetCount = parseSynsetCount(&fragments);
                 this -> pointerCount = parsePointerCount(&fragments);
                 this -> pointerSymbols = parsePointerSymbols(&fragments);
@@ -78,7 +78,7 @@ Index::Index(const Index& i)
 {
         this -> fragments = i.fragments;
         this -> lemma = i.lemma;
-        this -> posFilename = i.posFilename;
+        this -> dataPosFileName = i.dataPosFileName;
         this -> synsetCount = i.synsetCount;
         this -> pointerCount = i.pointerCount;
         this -> pointerSymbols = i.pointerSymbols;
@@ -115,7 +115,7 @@ std::string Index::parseLemma(std::vector<std::string> *fragments)
 std::string Index::parsePos(std::vector<std::string> *fragments)
 {
         std::string addr = WN3DB_IDX_POS_PATH;
-        return addr + posFile[(*fragments)[1][0]];
+        return addr + dataPosFileName[(*fragments)[1][0]];
 }
 
 int Index::parseSynsetCount(std::vector<std::string> *fragments)
@@ -159,7 +159,7 @@ void Index::previewIndex()
         }
         cout << endl;
         cout << this -> lemma << endl;
-        cout << this -> posFilename << endl;
+        cout << this -> dataPosFileName << endl;
         cout << this -> synsetCount << endl;
         cout << this -> pointerCount << endl;
         for (auto i: this -> pointerSymbols) {
