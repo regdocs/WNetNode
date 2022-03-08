@@ -116,7 +116,7 @@ std::string Index::parseLemma(std::vector<std::string> *fragments)
 std::string Index::parsePos(std::vector<std::string> *fragments)
 {
         std::string addr = WN3DB_IDX_POS_PATH;
-        return addr + dataPosFileName[(*fragments)[1][0]];
+        return addr + indexPosFileNameFromChar[(*fragments)[1][0]];
 }
 
 int Index::parseSynsetCount(std::vector<std::string> *fragments)
