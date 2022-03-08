@@ -76,6 +76,7 @@ Index::Index(std::string dataRow, bool isEmpty = false)
 
 Index::Index(const Index& i)
 {
+        this -> isEmpty = i.isEmpty;
         this -> fragments = i.fragments;
         this -> lemma = i.lemma;
         this -> dataPosFileName = i.dataPosFileName;
