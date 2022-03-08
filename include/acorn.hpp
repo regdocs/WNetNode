@@ -35,7 +35,7 @@ class Acorn
         public:
                 Acorn(short);
                 jay_io::Word_Log lookUpQuery(std::string);
-                jay_io::Index binarySearchDataPOS(std::string, std::string);
+                jay_io::Index binarySearchIndexPOS(std::string, std::string);
                 jay_io::Inflection binarySearchExcPOS(std::string, std::string);
         
         private:
@@ -73,7 +73,7 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
                         // iterate through all available index.pos files
                         for (auto i: {'n', 'v', 'a', 'r'}) {
                                 filename = dataPosFileNameFromChar[i];
-                                jay_io::Index entry = binarySearchDataPOS(query, pathToRoot + fileroot + filename);
+                                jay_io::Index entry = binarySearchIndexPOS(query, pathToRoot + fileroot + filename);
                                 if (!entry.isEmpty) {
                                         entryMap.insert({i, entry});
                                 }
@@ -102,7 +102,7 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
                                 jay_io::Inflection entry = binarySearchExcPOS(query, pathToRoot + excFileroot + excFilename);
                                 if (!entry.isEmpty) {
                                         std::string dataFilename = dataPosFileNameFromChar[i];
-                                        entryMap.insert({i, binarySearchDataPOS(entry.rootWords[0], pathToRoot + dataFileroot + dataFilename)});
+                                        entryMap.insert({i, binarySearchIndexPOS(entry.rootWords[0], pathToRoot + dataFileroot + dataFilename)});
                                 }
                         }
                         if (entryMap.empty())
@@ -147,7 +147,7 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
         }
 }
 
-jay_io::Index Acorn::binarySearchDataPOS(std::string query, std::string filepath)
+jay_io::Index Acorn::binarySearchIndexPOS(std::string query, std::string filepath)
 {
         std::fstream file(filepath, std::ios::binary | std::ios::in);
         
