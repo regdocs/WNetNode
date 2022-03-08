@@ -72,7 +72,7 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
                         std::string filename, pathToRoot = PATH_TO_ROOT, fileroot = WN3DB_IDX_POS_PATH;  
                         // iterate through all available index.pos files
                         for (auto i: {'n', 'v', 'a', 'r'}) {
-                                filename = dataPosFileNameFromChar[i];
+                                filename = indexPosFileNameFromChar[i];
                                 jay_io::Index entry = binarySearchIndexPOS(query, pathToRoot + fileroot + filename);
                                 if (!entry.isEmpty) {
                                         entryMap.insert({i, entry});
