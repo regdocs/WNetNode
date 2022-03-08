@@ -101,8 +101,8 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
                                 excFilename = excPosFileNameFromChar[i];
                                 jay_io::Inflection entry = binarySearchExcPOS(query, pathToRoot + excFileroot + excFilename);
                                 if (!entry.isEmpty) {
-                                        std::string dataFilename = dataPosFileNameFromChar[i];
-                                        entryMap.insert({i, binarySearchIndexPOS(entry.rootWords[0], pathToRoot + dataFileroot + dataFilename)});
+                                        std::string indexFilename = indexPosFileNameFromChar[i];
+                                        entryMap.insert({i, binarySearchIndexPOS(entry.rootWords[0], pathToRoot + dataFileroot + indexFilename)});
                                 }
                         }
                         if (entryMap.empty())
@@ -126,7 +126,11 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
         
         std::vector<jay_io::POS_Group> posGroups;
         if (!notFoundFlag) {
-                for (auto i: {'n', 'v', 'a', 'r'}) {
+                std::vector<char> keys;
+                for(auto it = result.idxObjMapMatch.begin(); it != result.idxObjMapMatch.end(); it++) 
+                        keys.push_back(it -> first);
+
+                for (auto i: keys) {
                         std::string filepath = std::string(PATH_TO_ROOT) + std::string(WN3DB_DAT_POS_PATH) + dataPosFileNameFromChar[i];
                         std::fstream datapos(filepath.c_str(), std::ios::binary | std::ios::in);
                         posGroups.push_back({
@@ -196,10 +200,13 @@ jay_io::Index Acorn::binarySearchIndexPOS(std::string query, std::string filepat
                 else if (diff > 0)
                         stop = mean;
                 
-                else /* if (diff == 0) */ {
+                else if (diff == 0) {
                         t = i;
                         isEntryFound = true;
                 }
+
+                if (start == stop - 1)
+                        break;
         }
 
         file.close();
@@ -256,10 +263,12 @@ jay_io::Inflection Acorn::binarySearchExcPOS(std::string query, std::string file
                 else if (diff > 0)
                         stop = mean;
                 
-                else /* if (diff == 0) */ {
+                else if (diff == 0) {
                         t = i;
                         isEntryFound = true;
                 }
+                if (start == stop - 1)
+                        break;
         }
 
         file.close();
@@ -299,7 +308,7 @@ Sense_Interface Acorn::returnSenseInterfaceObjAtByteOffset_InStream_(std::string
         return Sense_Interface(word, extr);
 }
 
-std::vector<Sense_Interface> Acorn::vectoriseSenseInterfaces(std::string query,std::vector<int> *voi, std::fstream *datapos)
+std::vector<Sense_Interface> Acorn::vectoriseSenseInterfaces(std::string query, std::vector<int> *voi, std::fstream *datapos)
 {
         std::vector<Sense_Interface> ret;
         for (auto i: *voi)
