@@ -12,7 +12,7 @@ struct POS_Group
 {
         std::string prettyPos;
         std::vector<std::string> inflections;
-        std::vector<std::string> pronunciation;
+        std::vector<std::string> pronunciations;
         std::vector<Sense_Interface> prettySenses;
 };
 
