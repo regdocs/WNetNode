@@ -4,10 +4,10 @@
 #include <vector>
 #include <string>
 
-#include "sense_interface.h"
-#include "string_utils.h"
-#include "pos_group.h"
-#include "wn3_path.h"
+#include "sense-interface.hpp"
+#include "string-utils.hpp"
+#include "pos-group.hpp"
+#include "wn3-path.hpp"
 
 namespace jay_io
 {

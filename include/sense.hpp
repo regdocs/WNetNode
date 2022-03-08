@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <locale>
-#include "string_utils.h"
+#include "string-utils.hpp"
 
 #define SYNSET_OFFSET_IDX 0
 #define LEX_FILENUM_IDX 1

@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-#include "synset_pointers.h"
+#include "synset-pointers.hpp"
 
 // parse lexicographer file index and return equivalent file name
 auto parseLexFilename = [] (int *lexFilenum) -> std::string {

@@ -8,14 +8,14 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "sense_interface.h"
-#include "string_utils.h"
-#include "acorn_utils.h"
-#include "inflection.h"
-#include "pos_group.h"
-#include "wn3_path.h"
-#include "word_log.h"
-#include "index.h"      
+#include "sense-interface.hpp"
+#include "string-utils.hpp"
+#include "acorn-utils.hpp"
+#include "inflection.hpp"
+#include "pos-group.hpp"
+#include "wn3-path.hpp"
+#include "word-log.hpp"
+#include "index.hpp"      
 
 // relative path to project root from this file
 #define PATH_TO_ROOT "../"

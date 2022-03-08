@@ -8,11 +8,11 @@
 #include <fstream>
 #include <iostream>
 
-#include "sense.h"
-#include "wn3_path.h"
-#include "acorn_utils.h"
-#include "string_utils.h"
-#include "synset_pointers.h"
+#include "sense.hpp"
+#include "wn3-path.hpp"
+#include "acorn-utils.hpp"
+#include "string-utils.hpp"
+#include "synset-pointers.hpp"
 
 class Sense_Interface: public Sense
 /* as an established standard for this repository, all interface class members are to be appended with 'Interface' */

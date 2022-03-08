@@ -5,10 +5,10 @@
 #include <vector>
 #include <iostream>
 
-#include "wn3_path.h"
-#include "acorn_utils.h"
-#include "string_utils.h"
-#include "sense_interface.h"
+#include "wn3-path.hpp"
+#include "acorn-utils.hpp"
+#include "string-utils.hpp"
+#include "sense-interface.hpp"
 
 namespace jay_io
 {

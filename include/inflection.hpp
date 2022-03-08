@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#include "acorn_utils.h"
-#include "string_utils.h"
+#include "acorn-utils.hpp"
+#include "string-utils.hpp"
 
 namespace jay_io
 {
