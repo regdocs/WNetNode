@@ -35,6 +35,14 @@ auto parseSynsetTypeExpanded = [] (char *synsetType) {
         }
 };
 
+// index file character and complete file name equivalent
+std::map<char, std::string> indexPosFileNameFromChar = {
+        {'n', "index.noun"},
+        {'v', "index.verb"},
+        {'a',  "index.adj"},
+        {'r',  "index.adv"}
+};
+
 // exception file character and complete file name equivalent
 std::map<char, std::string> excPosFileNameFromChar = {
         {'n', "noun.exc"},
