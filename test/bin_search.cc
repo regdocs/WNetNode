@@ -27,7 +27,7 @@ jay_io::Index returnIndexObjAtByte_InStream_(int offset, std::fstream *fs)
         return jay_io::Index(extr);
 }
 
-jay_io::Index binarySearchPOS(std::string query, std::string filepath)
+jay_io::Index binarySearchDataPOS(std::string query, std::string filepath)
 {
         std::fstream file(filepath, std::ios::in);
         
@@ -87,6 +87,6 @@ jay_io::Index binarySearchPOS(std::string query, std::string filepath)
 }
 
 int main() {
-        jay_io::Index x = binarySearchPOS("act", "../wndb3/index/index.noun");
+        jay_io::Index x = binarySearchDataPOS("act", "../wndb3/index/index.noun");
         x.previewIndex();
 }
