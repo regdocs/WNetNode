@@ -60,6 +60,7 @@ Index::Index() : isEmpty(true) {}
 Index::Index(std::string dataRow, bool isEmpty = false)
 {
         if (!isEmpty) {
+                this -> isEmpty = isEmpty;
                 this -> fragments = fragmentDataRow(&dataRow);
                 this -> lemma = parseLemma(&fragments);
                 this -> dataPosFileName = parsePos(&fragments);
@@ -115,8 +116,8 @@ std::string Index::parseLemma(std::vector<std::string> *fragments)
 
 std::string Index::parsePos(std::vector<std::string> *fragments)
 {
-        std::string addr = WN3DB_IDX_POS_PATH;
-        return addr + indexPosFileNameFromChar[(*fragments)[1][0]];
+        std::string addr = WN3DB_DAT_POS_PATH;
+        return addr + dataPosFileNameFromChar[(*fragments)[1][0]];
 }
 
 int Index::parseSynsetCount(std::vector<std::string> *fragments)
@@ -159,6 +160,7 @@ void Index::previewIndex()
                 cout << i << " ";
         }
         cout << endl;
+        cout << this -> isEmpty << endl;
         cout << this -> lemma << endl;
         cout << this -> dataPosFileName << endl;
         cout << this -> synsetCount << endl;
