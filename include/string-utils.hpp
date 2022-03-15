@@ -10,25 +10,44 @@
 
 // left-trim string
 auto leftTrim = [] (std::string *s) {
-        for (int i = 0; (*s)[i] == ' '; i++) {
-                (*s).erase(i, 1);
+        if ((*s).length() == 0)
+                return;
+        
+        if ((*s)[0] == ' ') {
+                int leftTrimStartIdx = 0, leftTrimEndIdx = 0;
+                for (int i = 0; (*s)[i] == ' '; i++)
+                        leftTrimEndIdx = i;
+                (*s).erase(leftTrimStartIdx, leftTrimEndIdx - leftTrimStartIdx + 1);
         }
 };
 
 // right-trim string
 auto rightTrim = [] (std::string *s) {
-        for (int i = (*s).length() - 1; (*s)[i] == ' '; i--) {
-                (*s).erase(i, 1);
+        if ((*s)[(*s).length() - 1] == ' ') {
+                int rightTrimEndIdx = (*s).length() - 1, rightTrimStartIdx = (*s).length() - 1;
+                for (int i = (*s).length() - 1; (*s)[i] == ' '; i--)
+                        rightTrimStartIdx = i;
+                (*s).erase(rightTrimStartIdx, rightTrimEndIdx - rightTrimStartIdx + 1);
         }
 };
 
 // left-trim and right-trim string
 auto trim = [] (std::string *s) {
-        for (int i = 0; (*s)[i] == ' '; i++) {
-                (*s).erase(i, 1);
+        if ((*s).length() == 0)
+                return;
+        
+        if ((*s)[0] == ' ') {
+                int leftTrimStartIdx = 0, leftTrimEndIdx = 0;
+                for (int i = 0; (*s)[i] == ' '; i++)
+                        leftTrimEndIdx = i;
+                (*s).erase(leftTrimStartIdx, leftTrimEndIdx - leftTrimStartIdx + 1);
         }
-        for (int i = (*s).length() - 1; (*s)[i] == ' '; i--) {
-                (*s).erase(i, 1);
+
+        if ((*s)[(*s).length() - 1] == ' ') {
+                int rightTrimEndIdx = (*s).length() - 1, rightTrimStartIdx = (*s).length() - 1;
+                for (int i = (*s).length() - 1; (*s)[i] == ' '; i--)
+                        rightTrimStartIdx = i;
+                (*s).erase(rightTrimStartIdx, rightTrimEndIdx - rightTrimStartIdx + 1);
         }
 };
 
