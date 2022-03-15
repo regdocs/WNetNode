@@ -116,16 +116,17 @@ jay_io::Word_Log Acorn::lookUpQuery(std::string query)
                 return mr;
         };
 
-        bool notFoundFlag = false;
+        bool noEntryExistsThroughWndb = false;
         matchRet result = searchIndexPOS(query);
-
+        
         if (!result.isMatchFound)
                 result = searchExcPOS(query);
-        else
-                notFoundFlag = true;
+        
+        if (!result.isMatchFound)
+                noEntryExistsThroughWndb = true;
         
         std::vector<jay_io::POS_Group> posGroups;
-        if (!notFoundFlag) {
+        if (!noEntryExistsThroughWndb) {
                 std::vector<char> keys;
                 for(auto it = result.idxObjMapMatch.begin(); it != result.idxObjMapMatch.end(); it++) 
                         keys.push_back(it -> first);
