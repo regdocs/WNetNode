@@ -37,3 +37,9 @@
 *.exe   binary
 *.out   binary
 *.app   binary
+
+# Graphical assets
+*.png   binary
+*.jpeg  binary
+*.jpg   binary
+*.gif   binary
