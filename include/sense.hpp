@@ -143,30 +143,33 @@ std::vector<std::string> Sense::fragmentDataRow(std::string *dataRow)
         trim(&fragment);
         fragments.push_back(fragment);
         fragment = "";
-
-        int dataRowPostfixDefEndIdx;
-        for (int i = 0; i < dataRowPostfix.length() - 2; i++)
-                if (dataRowPostfix[i] == ';' && dataRowPostfix[i + 2] == '\"') {
-                        dataRowPostfixDefEndIdx = i;
-                        break;
-                }
-                
+        int dataRowPostfixDefEndIdx = dataRowPostfix.length();
+        for (int i = 0; i < dataRowPostfix.length(); i++)
+                if (dataRowPostfix[i] == ';')
+                        if (dataRowPostfix[i + 2] == '\"') {
+                                dataRowPostfixDefEndIdx = i;
+                                break;
+                        }
+        
         for (int i = 0; i <= dataRowPostfixDefEndIdx - 1; i++)
                 fragment.push_back(dataRowPostfix[i]);
         fragments.push_back(fragment);
+        fragment.clear();
 
-        for (int i = dataRowPostfixDefEndIdx + 1; i < dataRowPostfix.length(); i++) {
-                if (dataRowPostfix[i] == ';') {
-                        trim(&fragment);
-                        fragments.push_back(fragment);
-                        fragment = "";
-                        continue;
+        if (dataRowPostfixDefEndIdx != dataRowPostfix.length()) {
+                for (int i = dataRowPostfixDefEndIdx + 1; i < dataRowPostfix.length(); i++) {
+                        if (dataRowPostfix[i] == ';') {
+                                trim(&fragment);
+                                fragments.push_back(fragment);
+                                fragment = "";
+                                continue;
+                        }
+                        fragment.push_back(dataRowPostfix[i]);
                 }
-                fragment.push_back(dataRowPostfix[i]);
-        }
 
-        trim(&fragment);
-        fragments.push_back(fragment);
+                trim(&fragment);
+                fragments.push_back(fragment);
+        }
         return fragments;
 }
 
@@ -192,7 +195,7 @@ char Sense::parseSynsetType(std::vector<std::string> *fragments)
 int Sense::parseSynCount(std::vector<std::string> *fragments)
 {
         /* parse string ss_count and spit its integer form */
-        return parseStringToInteger(&(*fragments)[SYNSET_COUNT_IDX]);
+        return parseHexStringToDecInteger(&(*fragments)[SYNSET_COUNT_IDX]);
 }
 
 std::vector<WordLexidGroup> Sense::parseWordLexidGroup(std::vector<std::string> *fragments)
