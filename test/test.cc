@@ -33,19 +33,19 @@ int main()
                 if (dataRowPrefix[i] == ' ') {
                         trim(&fragment);
                         fragments.push_back(fragment);
-                        fragment = "";
+                        fragment.clear();
                         continue;
                 }
                 fragment.push_back(dataRowPrefix[i]);
         }
         trim(&fragment);
         fragments.push_back(fragment);
-        fragment = "";
+        fragment.clear();
         for (int i = 0; i < dataRowPostfix.length(); i++) {
                 if (dataRowPostfix[i] == ';') {
                         trim(&fragment);
                         fragments.push_back(fragment);
-                        fragment = "";
+                        fragment.clear();
                         continue;
                 }
                 fragment.push_back(dataRowPostfix[i]);

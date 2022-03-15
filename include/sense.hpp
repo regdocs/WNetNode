@@ -134,7 +134,7 @@ std::vector<std::string> Sense::fragmentDataRow(std::string *dataRow)
                 if (dataRowPrefix[i] == ' ') {
                         trim(&fragment);
                         fragments.push_back(fragment);
-                        fragment = "";
+                        fragment.clear();
                         continue;
                 }
                 fragment.push_back(dataRowPrefix[i]);
@@ -142,7 +142,7 @@ std::vector<std::string> Sense::fragmentDataRow(std::string *dataRow)
 
         trim(&fragment);
         fragments.push_back(fragment);
-        fragment = "";
+        fragment.clear();
         int dataRowPostfixDefEndIdx = dataRowPostfix.length();
         for (int i = 0; i < dataRowPostfix.length(); i++)
                 if (dataRowPostfix[i] == ';')
@@ -161,7 +161,7 @@ std::vector<std::string> Sense::fragmentDataRow(std::string *dataRow)
                         if (dataRowPostfix[i] == ';') {
                                 trim(&fragment);
                                 fragments.push_back(fragment);
-                                fragment = "";
+                                fragment.clear();
                                 continue;
                         }
                         fragment.push_back(dataRowPostfix[i]);

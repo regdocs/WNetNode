@@ -99,7 +99,7 @@ std::vector<std::string> Index::fragmentDataRow(std::string *dataRow)
                 if ((*dataRow)[i] == ' ') {
                         trim(&fragment);
                         fragments.push_back(fragment);
-                        fragment = "";
+                        fragment.clear();
                         continue;
                 }
                 fragment.push_back((*dataRow)[i]);
