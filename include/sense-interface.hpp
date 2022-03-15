@@ -824,7 +824,27 @@ void Sense_Interface::previewSenseInterface()
                 return out;
         };
 
+        auto prettyPrintVectorOfExampleStrings = [&] (std::vector<std::string> *voes) -> std::string {
+                std::string a;
+                for (int i = 0; i < (*voes).size(); i++)
+                {
+                        if ((*voes).size() - 1 != i) {
+                                t = "\"";
+                                t.append((*voes)[i]);
+                                t.append("\", ");
+                                a.append(t);
+                        } else {
+                                a.append("\"");
+                                a.append((*voes)[i]);
+                                a.append("\"");
+                        }
+                }
+                return a;
+        };
+
         std::cout << "Part of speech:     " << synsetTypeInterface << std::endl;
+        std::cout << "Definition:         " << defInterface << std::endl;
+        std::cout << "Examples:           " << prettyPrintVectorOfExampleStrings(&exampleSentencesInterface) << std::endl;
         std::cout << "Synonym set:        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
 
         std::string nP = formatNounPointers();
@@ -833,13 +853,14 @@ void Sense_Interface::previewSenseInterface()
         std::string rP = formatAdverbPointers();
 
         if (!nounPointerIsEmpty)
-                std::cout << "Noun pointers:      " << newline << nP << std::endl;
+                std::cout << "    Noun pointers:      " << newline << nP;
         if (!verbPointerIsEmpty)
-                std::cout << "Verb pointers:      " << newline << vP << std::endl;
+                std::cout << "    Verb pointers:      " << newline << vP;
         if (!adjectivePointerIsEmpty)
-                std::cout << "Adjective pointers: " << newline << aP << std::endl;
+                std::cout << "    Adjective pointers: " << newline << aP;
         if (!adverbPointerIsEmpty)
-                std::cout << "Adverb pointers:    " << newline << rP << std::endl;
+                std::cout << "    Adverb pointers:    " << newline << rP;
+        std::cout << std::endl;
 }
 
 #endif /* SENSE_INTERFACE_H_ */
