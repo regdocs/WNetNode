@@ -47,13 +47,8 @@ struct Word_Log
 
                 cout << "Word: " << word << endl << endl;
                 for (auto i: posGroups) {
-                        cout << "Part of Speech: " << i.prettyPos << endl;
-                        cout << "Inflections: " << prettyPrintVectorOfStrings(i.inflections) << endl;
-                        cout << "Pronunciation: " << prettyPrintVectorOfStrings(i.pronunciations) << endl;
-                        cout << "Definitions: " << endl;
-                        for (auto i: i.prettySenses)
-                                i.previewSenseInterface();
-                        cout << endl << endl;
+                        for (auto itr: i.prettySenses)
+                                itr.previewSenseInterface();
                 }
         }
 };
