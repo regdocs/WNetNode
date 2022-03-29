@@ -48,7 +48,7 @@ struct Word_Log
                 cout << "Word: " << word << endl << endl;
                 for (auto i: posGroups) {
                         for (auto itr: i.prettySenses)
-                                itr.previewSenseInterface();
+                                itr.consoleDump();
                 }
         }
 };
