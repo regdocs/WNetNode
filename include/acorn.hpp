@@ -2,10 +2,12 @@
 #define ACORN_H_
 
 #include <map>
+#include <cmath>
 #include <vector>
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 
 #include "sense-interface.hpp"
@@ -189,17 +191,18 @@ jay_io::Index Acorn::binarySearchIndexPOS(std::string query, std::string filepat
         bool isEntryFound = false;
         jay_io::Index t, i;
         std::streamoff start = returnFirstByteOffset(&file), stop = returnFinalByteOffset(&file);
+        double mean;
 
         while (!isEntryFound) {
-                int mean = (start + stop)/2;
-                i = returnIndexObjAtByteOffset_InStream_(mean, &file);
+                mean = (start + stop)/2.0;
+                i = returnIndexObjAtByteOffset_InStream_(floor(mean), &file);
                 int diff = strcmp(i.lemma.c_str(), query.c_str());
 
                 if (diff < 0)
-                        start = mean;
+                        start = floor(mean);
                 
                 else if (diff > 0)
-                        stop = mean;
+                        stop = ceil(mean);
                 
                 else if (diff == 0) {
                         t = i;
@@ -231,6 +234,7 @@ jay_io::Index Acorn::returnIndexObjAtByteOffset_InStream_(int offset, std::fstre
                 }
                 else {
                         i--;
+                        if (i < 0) break;
                         (*fs).seekg(i);
                 }
         }
@@ -252,17 +256,18 @@ jay_io::Inflection Acorn::binarySearchExcPOS(std::string query, std::string file
         bool isEntryFound = false;
         jay_io::Inflection t, i;
         std::streamoff start = 0, stop = returnFinalByteOffset(&file);
+        double mean;
 
         while (!isEntryFound) {
-                int mean = (start + stop)/2;
+                mean = (start + stop)/2.0;
                 i = returnInflectionObjAtByteOffset_InStream_(mean, &file);
                 int diff = strcmp(i.inflection.c_str(), query.c_str());
 
                 if (diff < 0)
-                        start = mean;
+                        start = floor(mean);
                 
                 else if (diff > 0)
-                        stop = mean;
+                        stop = ceil(mean);
                 
                 else if (diff == 0) {
                         t = i;
@@ -293,6 +298,7 @@ jay_io::Inflection Acorn::returnInflectionObjAtByteOffset_InStream_(int offset, 
                 }
                 else {
                         i--;
+                        if (i < 0) break;
                         (*fs).seekg(i);
                 }
         }
