@@ -45,11 +45,14 @@ struct Word_Log
                         return a;
                 };
 
-                cout << "Word: " << word << endl << endl;
-                for (auto i: posGroups) {
-                        for (auto itr: i.prettySenses)
-                                itr.consoleDump();
-                }
+                if (posGroups.size() != 0) {
+                        cout << "Word: " << word << endl << endl;
+                        for (auto i: posGroups) {
+                                for (auto itr: i.prettySenses)
+                                        itr.consoleDump();
+                        }
+                } else 
+                        cout << "No results found for `" << word << "` :\\" << endl << endl;
         }
 };
 
