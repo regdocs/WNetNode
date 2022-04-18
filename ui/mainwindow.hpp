@@ -15,7 +15,6 @@
 #include "/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton"
 #include "/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTabWidget"
 #include "/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTextBrowser"
-#include "/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTextBrowser"
 #include "/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget"
 
 QT_BEGIN_NAMESPACE
