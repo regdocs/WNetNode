@@ -54,6 +54,35 @@ struct Word_Log
                 } else 
                         cout << "No results found for `" << word << "` :\\" << endl << endl;
         }
+
+        std::string toHtml()
+        {
+                auto prettyPrintVectorOfStrings = [&] (std::vector<std::string> &vos) -> std::string {
+                        std::string a, t;
+                        if (vos.size() == 0)
+                                return "-";
+
+                        for (int i = 0; i < vos.size(); i++)
+                        {
+                                if (vos.size() - 1 != i) {
+                                        t = vos[i];
+                                        t.append(", ");
+                                        a.append(t);
+                                } else
+                                        a.append(vos[i]);
+                        }
+                        return a;
+                };
+
+                std::string html = "<html><body>";
+                if (posGroups.size() != 0)
+                        for (auto i: posGroups)
+                                for (auto itr: i.prettySenses)
+                                        html += itr.toHtmlDiv();
+                html += "</body></html>";
+                std::cout << html;
+                return html;
+        }
 };
 
 }

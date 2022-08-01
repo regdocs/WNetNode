@@ -1133,7 +1133,7 @@ void Sense_Interface::consoleDump()
 
 std::string Sense_Interface::toHtmlDiv()
 {
-        std::string out, t, tab = "\t", colonSpace = ": ", newline = "<br>";
+        std::string out, t, tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", colonSpace = ": ", newline = "<br />";
 
         auto prettyPrintVectorOfStrings = [&] (std::vector<std::string> *vos) -> std::string {
                 std::string a;
@@ -1371,13 +1371,13 @@ std::string Sense_Interface::toHtmlDiv()
                 return a;
         };
 
-        std::string html = "";
-        html += "\x1b[31;1m[" + synsetTypeInterface + "]\x1b[0m" + newline;
-        std::cout << "\x1b[31;1mDefinition:\x1b[0m         " << defInterface << std::endl;
+        std::string html = "<div>";
+        html += stringify("<div style=\"font-weight: 800\">[") + synsetTypeInterface + stringify("]</div><div style=\"width:100%; height:1px; background: #fff\" />") + newline;
+        html += stringify("Definition:         ") + defInterface + newline;
         if (exampleSentencesInterface.size() != 0)
-                std::cout << "\x1b[31;1mExamples:\x1b[0m           " << prettyPrintVectorOfExampleStrings(&exampleSentencesInterface) << std::endl;
+                html += stringify("Examples:           ") + prettyPrintVectorOfExampleStrings(&exampleSentencesInterface) + newline;
         if (synWordVectorInterface.size() != 0)
-                std::cout << "\x1b[31;1mSynonym set:\x1b[0m        " << prettyPrintVectorOfStrings(&synWordVectorInterface) << std::endl;
+                html += stringify("Synonym set:        ") + prettyPrintVectorOfStrings(&synWordVectorInterface) + newline;
 
         std::string nP = formatNounPointers();
         std::string vP = formatVerbPointers();
@@ -1385,14 +1385,17 @@ std::string Sense_Interface::toHtmlDiv()
         std::string rP = formatAdverbPointers();
 
         if (!nounPointerIsEmpty)
-                std::cout << "    \x1b[31mNoun pointers:\x1b[0m      " << newline << nP;
+                html += stringify("    Noun pointers:      ") + newline + nP;
         if (!verbPointerIsEmpty)
-                std::cout << "    \x1b[31mVerb pointers:\x1b[0m      " << newline << vP;
+                html += stringify("    Verb pointers:      ") + newline + vP;
         if (!adjectivePointerIsEmpty)
-                std::cout << "    \x1b[31mAdjective pointers:\x1b[0m " << newline << aP;
+                html += stringify("    Adjective pointers: ") + newline + aP;
         if (!adverbPointerIsEmpty)
-                std::cout << "    \x1b[31mAdverb pointers:\x1b[0m    " << newline << rP;
-        std::cout << std::endl;
+                html += stringify("    Adverb pointers:    ") + newline + rP;
+        html +=  stringify("</div>") + newline;
+        
+        return html;
+
 }
 
 #endif /* SENSE_INTERFACE_H_ */

@@ -167,4 +167,8 @@ auto toSentenceCase = [] (std::string *s) -> std::string {
         return *s;
 };
 
+auto stringify = [] (std::string s) -> std::string {
+        return s;
+};
+
 #endif /* STRING_UTILS_H_ */

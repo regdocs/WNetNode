@@ -17,6 +17,8 @@
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
 
+#include "../include/acorn.hpp"
+
 QT_BEGIN_NAMESPACE
 
 namespace jay_io
@@ -53,7 +55,9 @@ class QtAcorn: public QMainWindow
                 void handleTopSearchPushButton()
                 {
                         QString entry = this -> topSearchLineEdit -> text();
-                        std::cout << entry.toStdString() << std::endl;
+                        jay_io::Acorn acorn(ACORN_MODE_EXECMD);
+                        jay_io::Word_Log wlog = acorn.lookUpQuery(entry.toStdString());
+                        this -> dictLookUpTextBrowser -> setHtml(QString(wlog.toHtml().c_str()));;
                 }
 
 
