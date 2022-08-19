@@ -43,3 +43,6 @@
 *.jpeg  binary
 *.jpg   binary
 *.gif   binary
+
+# Binary data files
+*.pdf   binary
