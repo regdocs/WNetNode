@@ -868,9 +868,9 @@ void Sense_Interface::previewSenseInterface()
 void Sense_Interface::consoleDump()
 {
         std::string out, t,
-                tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+                tab = "\t",
                 colonSpace = ": ",
-                newline = "<br>";
+                newline = "\n";
 
         auto prettyPrintVectorOfStrings = [&] (std::vector<std::string> *vos) -> std::string {
                 std::string a;
@@ -1372,7 +1372,7 @@ std::string Sense_Interface::toHtmlDiv()
         };
 
         std::string html = "<div>";
-        html += stringify("<div style=\"font-weight: 800\">[") + synsetTypeInterface + stringify("]</div><div style=\"width:100%; height:1px; background: #fff\" />") + newline;
+        html += stringify("<div style=\"font-weight: 800\">[") + synsetTypeInterface + stringify("]</div><div style=\"width:100%; height:1px;\" />") + newline;
         html += stringify("Definition:         ") + defInterface + newline;
         if (exampleSentencesInterface.size() != 0)
                 html += stringify("Examples:           ") + prettyPrintVectorOfExampleStrings(&exampleSentencesInterface) + newline;
